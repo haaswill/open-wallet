@@ -1,0 +1,33 @@
+{
+  "name": "open-wallet",
+  "version": "1.0.0",
+  "description": "Open Source Wallet",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haaswill/open-wallet.git"
+  },
+  "keywords": [
+    "wallet"
+  ],
+  "author": "Willian Haas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/haaswill/open-wallet/issues"
+  },
+  "homepage": "https://github.com/haaswill/open-wallet#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.17.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.2",
+    "express-session": "^1.15.1",
+    "mongoose": "^4.8.6",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1"
+  }
+}
