@@ -12,9 +12,10 @@ const port = process.env.PORT || 3000;
 const app = express();
 
 mongoose.connect(config.mlabConnectionString);
-
 passportConfig(passport);
 
+app.set('view engine', 'ejs');
+app.use('/assets', express.static(__dirname + '/public'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,6 +27,5 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-routes(app, passport);
-
+routes(app, express.Router(), passport);
 app.listen(port);

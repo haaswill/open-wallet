@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Profile</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <h1>Profile Page</h1>
+        <a href="/logout">Logout</a>
+
+        <h3>Facebook</h3>
+            <% if (user.facebook.token) { %>
+                <p>
+                    <strong>id</strong>: <%= user.facebook.id %><br>
+                    <strong>token</strong>: <%= user.facebook.token %><br>
+                    <strong>email</strong>: <%= user.facebook.email %><br>
+                    <strong>name</strong>: <%= user.facebook.name %><br>
+                </p>
+                <a href="/unlink/facebook">Unlink</a>
+            <% } else { %>
+                <a href="/connect/facebook">Connect Facebook</a>
+            <% } %>
+    </body>
+</html>

@@ -3,6 +3,16 @@ const User = require('../models/user');
 const config = require('../config');
 
 module.exports = function (passport) {
+    //Passport Session Setup
+    passport.serializeUser(function (user, done) {
+       done(null, user.id); 
+    });
+    passport.deserializeUser(function (id, done) {
+        User.findById(id, function (err, user) {
+            done(err, user);
+        });
+    });
+    // Facebook Setup
     let facebookConfig = config.facebookAuth;
     facebookConfig.passReqToCallback = true;
     passport.use(new FacebookStrategy(facebookConfig,
