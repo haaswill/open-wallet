@@ -4,14 +4,6 @@ const Transaction = require('../models/transaction');
 const TransactionCategory = require('../models/transactionCategory');
 
 module.exports = function (router) {
-    router.get('/user/:id', function (req, res) {
-        User.findById(req.params.id, function (err, user) {
-            if (err) {
-                throw err;
-            }
-            res.json(user);
-        });
-    });
     router.get('/wallet/:userId', function (req, res) {
         User.findOne({
             'userId.': req.params.userId
@@ -42,8 +34,7 @@ module.exports = function (router) {
         }, function (err, walllet) {
             if (err) {
                 throw err;
-            }
-            
+            }   
         });
     });
 };
