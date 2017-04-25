@@ -1,8 +1,8 @@
 const User = require('../models/user');
 
 module.exports = function (router) {
-    router.post('/users', function (req, res) {
-        var user = new User({
+    router.post('/', function (req, res) {
+        const user = new User({
             email: req.body.email,
             password: req.body.password,
             name: {
@@ -17,7 +17,7 @@ module.exports = function (router) {
             res.json({ message: 'User saved' });
         });
     });
-    router.get('/users', function (req, res) {
+    router.get('/', function (req, res) {
         User.find(function (err, users) {
             if (err) {
                 res.send(err);

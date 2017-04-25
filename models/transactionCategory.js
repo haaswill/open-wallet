@@ -4,7 +4,7 @@ const transactionCategorySchema = mongoose.Schema({
     description: String,
     type: String,
     color: String,
-    _user: { type: Number, ref: 'transactionCategory' }
+    _userId: { type: String, required: true }
 });
 
-exports.module = mongoose.model('transactionCategory', transactionCategorySchema);
+exports.module = mongoose.model('TransactionCategory', transactionCategorySchema);

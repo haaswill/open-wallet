@@ -4,7 +4,7 @@ const walletSchema = mongoose.Schema({
     description: String,
     value: Number,
     color: String,
-    _user: { type: Number, ref: 'user' }
+    _userId: { type: String, required: true }
 });
 
-exports.module = mongoose.model('wallet', walletSchema);
+module.exports = mongoose.model('Wallet', walletSchema);

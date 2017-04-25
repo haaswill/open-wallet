@@ -5,8 +5,8 @@ const transactionSchema = mongoose.Schema({
     value: Number,
     type: String,
     date: { type: Date, default: Date.now },
-    _wallet: { type: Number, ref: 'wallet' },
-    _transactionCategory: { type: Number, ref: 'transactionCategory' }
+    _walletId: { type: String, required: true },
+    _transactionCategoryId: { type: String, required: true }
 });
 
-exports.module = mongoose.model('transaction', transactionSchema);
+exports.module = mongoose.model('Transaction', transactionSchema);
