@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 // Define our token schema
 const TokenSchema = new mongoose.Schema({
     value: { type: String, required: true },
-    _userId: { type: String, required: true },
-    _clientId: { type: String, required: true }
+    userId: { type: String, required: true },
+    clientId: { type: String, required: true }
 });
 
 //Hash access token

@@ -11,7 +11,7 @@ passport.use(new BasicStrategy(
             if (err) {
                 return callback(err);
             }
-            // No user found with that username
+            // No user found with that email
             if (!user) {
                 return callback(null, false);
             }
@@ -59,7 +59,7 @@ passport.use(new BearerStrategy(
                 return callback(null, false);
             }
 
-            User.findOne({ _id: token._userId }, function (err, user) {
+            User.findOne({ _id: token.userId }, function (err, user) {
                 if (err) {
                     return callback(err);
                 }
@@ -76,6 +76,6 @@ passport.use(new BearerStrategy(
     }
 ));
 
-exports.isAuthenticated = passport.authenticate(['basic', 'bearer'], { session : false });
+exports.isAuthenticated = passport.authenticate(['basic', 'bearer'], { session: false });
 exports.isClientAuthenticated = passport.authenticate('client-basic', { session: false });
 exports.isBearerAuthenticated = passport.authenticate('bearer', { session: false });

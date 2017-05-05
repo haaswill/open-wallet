@@ -41,9 +41,9 @@ server.grant(oauth2orize.grant.code(function (client, redirectUri, user, ares, c
     // Create a new authorization code
     var code = new Code({
         value: uid(16),
-        _clientId: client._id,
+        clientId: client._id,
         redirectUri: redirectUri,
-        _userId: user._id
+        userId: user._id
     });
 
     // Save the auth code and check for errors
@@ -67,7 +67,7 @@ server.exchange(oauth2orize.exchange.code(function (client, code, redirectUri, c
         if (client._id.toString() !== authCode.clientId) {
             return callback(null, false);
         }
-        if (redirectUri !== authCode.redirectUri) {
+        if (redirectUri !== authCode.redirectUri) {  
             return callback(null, false);
         }
         // Delete auth code now that it has been used

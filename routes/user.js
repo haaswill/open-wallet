@@ -6,8 +6,8 @@ module.exports = function (router) {
             email: req.body.email,
             password: req.body.password,
             name: {
-                first: req.firstName,
-                last: req.lastName
+                first: req.body.firstName,
+                last: req.body.lastName
             }
         });
         user.save(function (err) {

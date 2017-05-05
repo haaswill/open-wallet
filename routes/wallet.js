@@ -6,7 +6,7 @@ module.exports = function (router) {
             description: req.body.description,
             value: req.body.value,
             color: req.body.color,
-            _userId: req.user._id
+            userId: req.user._id
         });
         wallet.save(function (err) {
             if (err) {

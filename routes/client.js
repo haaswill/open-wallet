@@ -6,7 +6,7 @@ module.exports = function (router) {
         client.name = req.body.name;
         client.id = req.body.id;
         client.secret = req.body.secret;
-        client._userId = req.user._id;
+        client.userId = req.user._id;
         client.save(function (err) {
             if (err) {
                 res.send(err);
@@ -15,7 +15,7 @@ module.exports = function (router) {
         });
     });
     router.get('/', function (req, res) {
-        Client.find({ _userId: req.user._id }, function (err, clients) {
+        Client.find({ userId: req.user._id }, function (err, clients) {
             if (err) {
                 res.send(err);
             }
