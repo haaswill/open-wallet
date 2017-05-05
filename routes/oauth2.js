@@ -39,7 +39,7 @@ server.deserializeClient(function (id, callback) {
 // Register authorization code grant type
 server.grant(oauth2orize.grant.code(function (client, redirectUri, user, ares, callback) {
     // Create a new authorization code
-    var code = new Code({
+    const code = new Code({
         value: uid(16),
         clientId: client._id,
         redirectUri: redirectUri,
@@ -67,7 +67,7 @@ server.exchange(oauth2orize.exchange.code(function (client, code, redirectUri, c
         if (client._id.toString() !== authCode.clientId) {
             return callback(null, false);
         }
-        if (redirectUri !== authCode.redirectUri) {  
+        if (redirectUri !== authCode.redirectUri) {
             return callback(null, false);
         }
         // Delete auth code now that it has been used
@@ -76,7 +76,7 @@ server.exchange(oauth2orize.exchange.code(function (client, code, redirectUri, c
                 return callback(err);
             }
             // Create a new access token
-            var token = new Token({
+            const token = new Token({
                 value: uid(256),
                 clientId: authCode.clientId,
                 userId: authCode.userId

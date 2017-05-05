@@ -41,8 +41,18 @@ passport.use('client-basic', new BasicStrategy(
             if (!client || client.secret !== password) {
                 return callback(null, false);
             }
-            // Success
-            return callback(null, client);
+            // Make sure the secret is correct
+            client.verifySecret(password, function (err, isMatch) {
+                if (err) {
+                    return callback(err);
+                }
+                // Secret did not match
+                if (!isMatch) {
+                    return callback(null, false);
+                }
+                // Success
+                return callback(null, client);
+            });
         });
     }
 ));
@@ -53,22 +63,18 @@ passport.use(new BearerStrategy(
             if (err) {
                 return callback(err);
             }
-
             // No token found
             if (!token) {
                 return callback(null, false);
             }
-
             User.findOne({ _id: token.userId }, function (err, user) {
                 if (err) {
                     return callback(err);
                 }
-
                 // No user found
                 if (!user) {
                     return callback(null, false);
                 }
-
                 // Simple example with no scope
                 callback(null, user, { scope: '*' });
             });

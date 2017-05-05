@@ -2,11 +2,20 @@ const Client = require('../models/client');
 
 module.exports = function (router) {
     router.post('/', function (req, res) {
-        var client = new Client();
-        client.name = req.body.name;
-        client.id = req.body.id;
-        client.secret = req.body.secret;
-        client.userId = req.user._id;
+        Client.find({ name: req.body.name }, function (err, client) {
+            if (err) {
+                res.send(err);
+            }
+            if (client) {
+                res.json({ message: 'Client have already been registered!' });
+            }
+        });
+        const client = new Client({
+            name: req.body.name,
+            id: req.body.id,
+            secret: req.body.secret,
+            userId: req.user._id
+        });
         client.save(function (err) {
             if (err) {
                 res.send(err);
