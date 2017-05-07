@@ -32,17 +32,17 @@ passport.use(new BasicStrategy(
 ));
 
 passport.use('client-basic', new BasicStrategy(
-    function (email, password, callback) {
-        Client.findOne({ id: email }, function (err, client) {
+    function (id, secret, callback) {
+        Client.findOne({ id: id }, function (err, client) {
             if (err) {
                 return callback(err);
             }
-            // No client found with that id or bad password
-            if (!client || client.secret !== password) {
+            // No client found with that id or bad secret
+            if (!client || client.secret !== secret) {
                 return callback(null, false);
             }
             // Make sure the secret is correct
-            client.verifySecret(password, function (err, isMatch) {
+            client.verifyClient(secret, function (err, isMatch) {
                 if (err) {
                     return callback(err);
                 }
