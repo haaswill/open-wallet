@@ -10,9 +10,9 @@ exports.create = function (req, res) {
     });
     wallet.save(function (err) {
         if (err) {
-            res.send(err);
+            return res.send(err);
         }
-        res.json({ message: 'Wallet saved.' });
+        return res.json({ message: 'Wallet saved.' });
     });
 };
 exports.update = function (req, res) {
@@ -23,42 +23,42 @@ exports.update = function (req, res) {
     });
     wallet.save(function (err) {
         if (err) {
-            res.send(err);
+            return res.send(err);
         }
-        res.json({ message: 'Wallet updated.' });
+        return res.json({ message: 'Wallet updated.' });
     });
 };
 exports.delete = function (req, res) {
     Wallet.findByIdAndRemove(req.params.id, function (err) {
         if (err) {
-            res.send(err);
+            return res.send(err);
         }
-        res.json({ message: 'Wallet deleted.' });
+        return res.json({ message: 'Wallet deleted.' });
     });
 };
 exports.getAll = function (req, res) {
     Wallet.find(function (err, wallets) {
         if (err) {
-            res.send(err);
+            return res.send(err);
         }
-        res.json(wallets);
+        return res.json(wallets);
     });
 };
 exports.getById = function (req, res) {
     Wallet.findById(req.params.id, function (err, wallet) {
         if (err) {
-            res.send(err);
+            return res.send(err);
         }
-        res.json(wallet);
+        return res.json(wallet);
     });
 };
 exports.income = function (req, res) {
     Wallet.findOne({ _id: req.body.walletId, userId: req.user._id }, function (err, wallet) {
         if (err) {
-            res.send(err);
+            return res.send(err);
         }
         if (!wallet) {
-            res.json({ message: 'Wallet not found for your user Id.' })
+            return res.json({ message: 'Wallet not found for your user Id.' })
         }
         const transaction = new Transaction({
             description: req.body.description,
@@ -70,20 +70,20 @@ exports.income = function (req, res) {
         });
         transaction.save(function (err) {
             if (err) {
-                res.send(err);
+                return res.send(err);
             }
             wallet.value += transaction.value;
             wallet.save(function (err) {
                 if (err) {
                     Transaction.findByIdAndRemove(transaction._id, function (err) {
                         if (err) {
-                            res.send(err);
+                            return res.send(err);
                         }
                     });
-                    res.send(err);
+                    return res.send(err);
                 }
             });
-            res.json({ message: 'Transaction saved.' });
+            return res.json({ message: 'Transaction saved.' });
         });
     });
 };
