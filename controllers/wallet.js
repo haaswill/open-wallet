@@ -1,4 +1,5 @@
 const Wallet = require('../models/wallet');
+const Transaction = require('../models/transaction');
 
 exports.create = function (req, res) {
     const wallet = new Wallet({
@@ -11,7 +12,7 @@ exports.create = function (req, res) {
         if (err) {
             res.send(err);
         }
-        res.json({ message: 'Wallet saved' });
+        res.json({ message: 'Wallet saved.' });
     });
 };
 exports.update = function (req, res) {
@@ -24,7 +25,7 @@ exports.update = function (req, res) {
         if (err) {
             res.send(err);
         }
-        res.json({ message: 'Wallet updated' });
+        res.json({ message: 'Wallet updated.' });
     });
 };
 exports.delete = function (req, res) {
@@ -32,7 +33,7 @@ exports.delete = function (req, res) {
         if (err) {
             res.send(err);
         }
-        res.json({ message: 'Wallet deleted' });
+        res.json({ message: 'Wallet deleted.' });
     });
 };
 exports.getAll = function (req, res) {
@@ -49,5 +50,75 @@ exports.getById = function (req, res) {
             res.send(err);
         }
         res.json(wallet);
+    });
+};
+exports.income = function (req, res) {
+    Wallet.findOne({ _id: req.body.walletId, userId: req.user._id }, function (err, wallet) {
+        if (err) {
+            res.send(err);
+        }
+        if (!wallet) {
+            res.json({ message: 'Wallet not found for your user Id.' })
+        }
+        const transaction = new Transaction({
+            description: req.body.description,
+            value: req.body.value,
+            type: 'Income',
+            walletId: req.body.walletId,
+            transactionCategoryId: req.body.transactionCategoryId,
+            userId: req.user._id
+        });
+        transaction.save(function (err) {
+            if (err) {
+                res.send(err);
+            }
+            wallet.value += transaction.value;
+            wallet.save(function (err) {
+                if (err) {
+                    Transaction.findByIdAndRemove(transaction._id, function (err) {
+                        if (err) {
+                            res.send(err);
+                        }
+                    });
+                    res.send(err);
+                }
+            });
+            res.json({ message: 'Transaction saved.' });
+        });
+    });
+};
+exports.expense = function (req, res) {
+    Wallet.findOne({ _id: req.body.walletId, userId: req.user._id }, function (err, wallet) {
+        if (err) {
+            res.send(err);
+        }
+        if (!wallet) {
+            res.json({ message: 'Wallet not found for your user Id.' })
+        }
+        const transaction = new Transaction({
+            description: req.body.description,
+            value: req.body.value,
+            type: 'Expense',
+            walletId: req.body.walletId,
+            transactionCategoryId: req.body.transactionCategoryId,
+            userId: req.user._id
+        });
+        transaction.save(function (err) {
+            if (err) {
+                res.send(err);
+            }
+            wallet.value -= transaction.value;
+            wallet.save(function (err) {
+                if (err) {
+                    Transaction.findByIdAndRemove(transaction._id, function (err) {
+                        if (err) {
+                            res.send(err);
+                        }
+                    });
+                    res.send(err);
+                }
+            });
+            res.json({ message: 'Transaction saved.' });
+        });
     });
 };

@@ -13,7 +13,7 @@ exports.create = function (req, res) {
         if (err) {
             res.send(err);
         }
-        res.json({ message: 'User saved' });
+        res.json({ message: 'User saved.' });
     });
 };
 exports.getAll = function (req, res) {
