@@ -40,4 +40,8 @@ jspm_packages
 config/index.js
 
 #VSCode
-.vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
