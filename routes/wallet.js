@@ -1,11 +1,12 @@
 const wallet = require('../controllers/wallet');
+const { catchErrors } = require('../handlers/errorHandlers');
 
 module.exports = function (router) {
-    router.post('/', wallet.create);
-    router.post('/income', wallet.income);
-    router.post('/expense', wallet.expense);
-    router.put('/', wallet.update);
-    router.delete('/:id', wallet.delete);
-    router.get('/', wallet.getAll);
-    router.get('/:id', wallet.getById);
+    router.post('/', catchErrors(wallet.create));
+    router.post('/income', catchErrors(wallet.income));
+    router.post('/expense', catchErrors(wallet.expense));
+    router.put('/', catchErrors(wallet.update));
+    router.delete('/:id', catchErrors(wallet.delete));
+    router.get('/', catchErrors(wallet.getAll));
+    router.get('/:id', catchErrors(wallet.getById));
 };

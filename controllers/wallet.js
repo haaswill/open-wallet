@@ -1,124 +1,46 @@
 const Wallet = require('../models/wallet');
 const Transaction = require('../models/transaction');
 
-exports.create = function (req, res) {
-    const wallet = new Wallet({
-        description: req.body.description,
-        value: req.body.value,
-        color: req.body.color,
-        userId: req.user._id
-    });
-    wallet.save(function (err) {
-        if (err) {
-            return res.send(err);
-        }
-        return res.json({ message: 'Wallet saved.' });
-    });
+exports.create = async (req, res) => {
+    await (new Wallet(req.body)).save();
+    res.json({ message: 'Wallet saved.' });
 };
-exports.update = function (req, res) {
-    const wallet = new Wallet({
-        description: req.body.description,
-        value: req.body.value,
-        color: req.body.color,
-    });
-    wallet.save(function (err) {
-        if (err) {
-            return res.send(err);
-        }
-        return res.json({ message: 'Wallet updated.' });
-    });
+exports.update = async (req, res) => {
+    await Wallet.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true
+    }).exec();
+    res.json({ message: 'Wallet updated.' });
 };
-exports.delete = function (req, res) {
-    Wallet.findByIdAndRemove(req.params.id, function (err) {
-        if (err) {
-            return res.send(err);
-        }
-        return res.json({ message: 'Wallet deleted.' });
-    });
+exports.delete = async (req, res) => {
+    await Wallet.findByIdAndRemove(req.params.id);
+    res.json({ message: 'Wallet deleted.' });
 };
-exports.getAll = function (req, res) {
-    Wallet.find(function (err, wallets) {
-        if (err) {
-            return res.send(err);
-        }
-        return res.json(wallets);
-    });
+exports.getByUserId = async (req, res) => {
+    const wallets = await Wallet.find({ userId: req.params.userId });
+    res.json(wallets);
 };
-exports.getById = function (req, res) {
-    Wallet.findById(req.params.id, function (err, wallet) {
-        if (err) {
-            return res.send(err);
-        }
-        return res.json(wallet);
-    });
+exports.getById = async (req, res) => {
+    const wallet = await Wallet.findById(req.params.id);
+    res.json(wallet);
 };
-exports.income = function (req, res) {
-    Wallet.findOne({ _id: req.body.walletId, userId: req.user._id }, function (err, wallet) {
-        if (err) {
-            return res.send(err);
-        }
-        if (!wallet) {
-            return res.json({ message: 'Wallet not found for your user Id.' })
-        }
-        const transaction = new Transaction({
-            description: req.body.description,
-            value: req.body.value,
-            type: 'Income',
-            walletId: req.body.walletId,
-            transactionCategoryId: req.body.transactionCategoryId,
-            userId: req.user._id
-        });
-        transaction.save(function (err) {
-            if (err) {
-                return res.send(err);
-            }
-            wallet.value += transaction.value;
-            wallet.save(function (err) {
-                if (err) {
-                    Transaction.findByIdAndRemove(transaction._id, function (err) {
-                        if (err) {
-                            return res.send(err);
-                        }
-                    });
-                    return res.send(err);
-                }
-            });
-            return res.json({ message: 'Transaction saved.' });
-        });
-    });
+exports.income = async (req, res) => {
+    const wallet = await Wallet.findOne({ _id: req.body.walletId, userId: req.user._id });
+    if (!wallet) {
+        return res.json({ message: 'Wallet not found for your user Id.' })
+    }
+    await (new Transaction(req.body)).save();
+    wallet.value += transaction.value;
+    await wallet.save();
+    res.json({ message: 'Transaction saved.' });
 };
-exports.expense = function (req, res) {
-    Wallet.findOne({ _id: req.body.walletId, userId: req.user._id }, function (err, wallet) {
-        if (err) {
-            res.send(err);
-        }
-        if (!wallet) {
-            res.json({ message: 'Wallet not found for your user Id.' })
-        }
-        const transaction = new Transaction({
-            description: req.body.description,
-            value: req.body.value,
-            type: 'Expense',
-            walletId: req.body.walletId,
-            transactionCategoryId: req.body.transactionCategoryId,
-            userId: req.user._id
-        });
-        transaction.save(function (err) {
-            if (err) {
-                res.send(err);
-            }
-            wallet.value -= transaction.value;
-            wallet.save(function (err) {
-                if (err) {
-                    Transaction.findByIdAndRemove(transaction._id, function (err) {
-                        if (err) {
-                            res.send(err);
-                        }
-                    });
-                    res.send(err);
-                }
-            });
-            res.json({ message: 'Transaction saved.' });
-        });
-    });
+exports.expense = async (req, res) => {
+    const wallet = await Wallet.findOne({ _id: req.body.walletId, userId: req.user._id });
+    if (!wallet) {
+        return res.json({ message: 'Wallet not found for your user Id.' })
+    }
+    await (new Transaction(req.body)).save();
+    wallet.value -= transaction.value;
+    await wallet.save();
+    res.json({ message: 'Transaction saved.' });
 };

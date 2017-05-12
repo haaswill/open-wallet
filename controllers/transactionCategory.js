@@ -1,53 +1,25 @@
 const TransactionCategory = require('../models/transactionCategory');
 
-exports.create = function (req, res) {
-    const transactionCategory = new TransactionCategory({
-        description: req.body.description,
-        type: req.body.type,
-        color: req.body.color,
-        userId: req.user._id
-    });
-    transactionCategory.save(function (err) {
-        if (err) {
-            res.send(err);
-        }
-        res.json({ message: 'Category saved.' });
-    });
+exports.create = async (req, res) => {
+    await (new TransactionCategory(req.body)).save();
+    res.json({ message: 'Transaction category saved.' });
 };
-exports.update = function (req, res) {
-    const transactionCategory = new TransactionCategory({
-        description: req.body.description,
-        type: req.body.type,
-        color: req.body.color,
-    });
-    transactionCategory.save(function (err) {
-        if (err) {
-            res.send(err);
-        }
-        res.json({ message: 'Category updated.' });
-    });
+exports.update = async (req, res) => {
+    await TransactionCategory.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true
+    }).exec();
+    res.json({ message: 'Transaction category updated.' });
 };
-exports.delete = function (req, res) {
-    TransactionCategory.findByIdAndRemove(req.params.id, function (err) {
-        if (err) {
-            res.send(err);
-        }
-        res.json({ message: 'Category deleted.' });
-    });
+exports.delete = async (req, res) => {
+    await TransactionCategory.findByIdAndRemove(req.params.id);
+    res.json({ message: 'Transaction category deleted.' });
 };
-exports.getAll = function (req, res) {
-    TransactionCategory.find(function (err, transactionCategories) {
-        if (err) {
-            res.send(err);
-        }
-        res.json(transactionCategories);
-    });
+exports.getByUserId = async (req, res) => {
+    const transactionCategories = await TransactionCategory.find({ userId: req.params.userId });
+    res.json(transactionCategories);
 };
-exports.getById = function (req, res) {
-    TransactionCategory.findById(req.params.id, function (err, transactionCategory) {
-        if (err) {
-            res.send(err);
-        }
-        res.json(transactionCategory);
-    });
+exports.getById = async (req, res) => {
+    const transactionCategories = await TransactionCategory.findById(req.params.id);
+    res.json(transactionCategory);
 };
