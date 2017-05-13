@@ -1,10 +1,18 @@
 const mongoose = require('mongoose');
 
-const transactionCategorySchema = mongoose.Schema({
-    description: { type: String, required: 'Description must be informed' },
-    type: { type: String, required: 'Type must be informed' },
-    color: { type: String, required: 'Color must be informed.' },
-    userId: { type: String, required: 'User id must be informed.' }
+const TransactionCategorySchema = new mongoose.Schema({
+    description: { type: String, trim: true, maxlength: 50, required: 'description must be informed' },
+    type: { type: String, enum: ['Income', 'Expense'], required: 'type must be informed' },
+    color: { type: String, trim: true, minlength: 4, maxlength: 7, required: 'color must be informed.' },
+    user: { type: mongoose.Schema.ObjectId, ref: 'User', required: 'user is required' }
 });
 
-module.exports = mongoose.model('TransactionCategory', transactionCategorySchema);
+function autopopulate(next) {
+    this.populate('user');
+    next();
+}
+
+TransactionCategorySchema.pre('find', autopopulate);
+TransactionCategorySchema.pre('findById', autopopulate);
+
+module.exports = mongoose.model('TransactionCategory', TransactionCategorySchema);

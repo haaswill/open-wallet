@@ -1,6 +1,7 @@
 const TransactionCategory = require('../models/transactionCategory');
 
 exports.create = async (req, res) => {
+    req.body.user = req.user._id;
     await (new TransactionCategory(req.body)).save();
     res.json({ message: 'Transaction category saved.' });
 };
@@ -15,8 +16,8 @@ exports.delete = async (req, res) => {
     await TransactionCategory.findByIdAndRemove(req.params.id);
     res.json({ message: 'Transaction category deleted.' });
 };
-exports.getByUserId = async (req, res) => {
-    const transactionCategories = await TransactionCategory.find({ userId: req.params.userId });
+exports.getByUser = async (req, res) => {
+    const transactionCategories = await TransactionCategory.find({ user: req.user._id });
     res.json(transactionCategories);
 };
 exports.getById = async (req, res) => {

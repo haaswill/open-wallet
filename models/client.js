@@ -1,23 +1,31 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 
-const clientSchema = mongoose.Schema({
-    name: { type: String, unique: true, required: true },
-    id: { type: String, required: true },
-    secret: { type: String, required: true },
-    userId: { type: String, required: true }
+const ClientSchema = new mongoose.Schema({
+    name: { type: String, trim: true, unique: true, required: 'name is required.' },
+    id: { type: String, trim: true, required: 'id is required.' },
+    secret: { type: String, trim: true, required: 'secret is required.' },
+    user: { type: mongoose.Schema.ObjectId, ref: 'User', required: 'user is required' }
 });
 
-clientSchema.pre('save', function (callback) {
+function autopopulate(next) {
+    this.populate('user');
+    this.populate('client');
+    next();
+}
+
+ClientSchema.pre('find', autopopulate);
+ClientSchema.pre('findOne', autopopulate);
+ClientSchema.pre('save', (callback) => {
     const client = this;
     if (!client.isModified('secret')) {
         return callback();
     }
-    bcrypt.genSalt(5, function (err, salt) {
+    bcrypt.genSalt(5, (err, salt) => {
         if (err) {
             return callback(err);
         }
-        bcrypt.hash(client.secret, salt, null, function (err, hash) {
+        bcrypt.hash(client.secret, salt, null, (err, hash) => {
             if (err) {
                 return callback(err);
             }
@@ -27,8 +35,8 @@ clientSchema.pre('save', function (callback) {
     });
 });
 
-clientSchema.methods.verifySecret = function (secret, cb) {
-    bcrypt.compare(secret, this.secret, function (err, isMatch) {
+ClientSchema.methods.verifySecret = (secret, cb) => {
+    bcrypt.compare(secret, this.secret, (err, isMatch) => {
         if (err) {
             return cb(err);
         }
@@ -36,4 +44,4 @@ clientSchema.methods.verifySecret = function (secret, cb) {
     });
 };
 
-module.exports = mongoose.model('Client', clientSchema);
+module.exports = mongoose.model('Client', ClientSchema);

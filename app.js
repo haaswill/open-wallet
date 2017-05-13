@@ -19,8 +19,10 @@ if (major <= 7 && minor <= 5) {
 // Import environmental variables
 require('dotenv').config({ path: 'variables.env' });
 
-// Connect to MongoDB
-mongoose.connect(process.env.DATABASE);
+// Connect to MongoDB online
+//mongoose.connect(process.env.DATABASE);
+// Connect to MongoDB local
+mongoose.connect(process.env.DATABASE_LOCAL);
 // Tell Mongoose to use ES6 promises
 mongoose.Promise = global.Promise;
 // Handle bad connection

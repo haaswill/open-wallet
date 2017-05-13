@@ -9,19 +9,19 @@ exports.delete = async (req, res) => {
     await transaction.remove();
     res.json({ message: 'Transaction deleted.' });
 };
-exports.getByUserId = async (req, res) => {
-    const transactions = await Transaction.find({ userId: req.params.userId });
+exports.getByUser = async (req, res) => {
+    const transactions = await Transaction.find({ user: req.user._id });
     res.json(transactions);
 };
-exports.getByWalletId = async (req, res) => {
-    const transactions = await Transaction.find({ userId: req.params.walletId });
+exports.getByWallet = async (req, res) => {
+    const transactions = await Transaction.find({ wallet: req.params.walletId });
     res.json(transactions);
 };
-exports.getByTransactionCategoryId = async (req, res) => {
-    const transactions = await Transaction.find({ userId: req.params.transactionCategoryId });
+exports.getByTransactionCategory = async (req, res) => {
+    const transactions = await Transaction.find({ transactionCategory: req.params.transactionCategoryId });
     res.json(transactions);
 };
 exports.getById = async (req, res) => {
-    const transaction = await Transaction.findById();
+    const transaction = await Transaction.findById(req.params.id);
     res.json(transaction);
 };

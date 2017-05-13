@@ -2,6 +2,7 @@ const Wallet = require('../models/wallet');
 const Transaction = require('../models/transaction');
 
 exports.create = async (req, res) => {
+    req.body.user = req.user._id;
     await (new Wallet(req.body)).save();
     res.json({ message: 'Wallet saved.' });
 };
@@ -16,8 +17,8 @@ exports.delete = async (req, res) => {
     await Wallet.findByIdAndRemove(req.params.id);
     res.json({ message: 'Wallet deleted.' });
 };
-exports.getByUserId = async (req, res) => {
-    const wallets = await Wallet.find({ userId: req.params.userId });
+exports.getByUser = async (req, res) => {
+    const wallets = await Wallet.find({ user: req.user._id });
     res.json(wallets);
 };
 exports.getById = async (req, res) => {
@@ -25,22 +26,20 @@ exports.getById = async (req, res) => {
     res.json(wallet);
 };
 exports.income = async (req, res) => {
-    const wallet = await Wallet.findOne({ _id: req.body.walletId, userId: req.user._id });
-    if (!wallet) {
-        return res.json({ message: 'Wallet not found for your user Id.' })
-    }
+    req.body.user = req.user._id;
     await (new Transaction(req.body)).save();
-    wallet.value += transaction.value;
-    await wallet.save();
+    await Wallet.findOneAndUpdate({ _id: req.params.id, user: req.user._id }, { value: value + req.body.value }, {
+        new: true,
+        runValidators: true
+    }).exec();
     res.json({ message: 'Transaction saved.' });
 };
 exports.expense = async (req, res) => {
-    const wallet = await Wallet.findOne({ _id: req.body.walletId, userId: req.user._id });
-    if (!wallet) {
-        return res.json({ message: 'Wallet not found for your user Id.' })
-    }
+    req.body.user = req.user._id;
     await (new Transaction(req.body)).save();
-    wallet.value -= transaction.value;
-    await wallet.save();
+    await Wallet.findOneAndUpdate({ _id: req.params.id, user: req.user._id }, { value: value + req.body.value }, {
+        new: true,
+        runValidators: true
+    }).exec();
     res.json({ message: 'Transaction saved.' });
 };
