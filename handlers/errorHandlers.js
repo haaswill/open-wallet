@@ -29,7 +29,7 @@ exports.developmentErrors = (err, req, res, next) => {
     const errorDetails = {
         message: err.message,
         status: err.status,
-        stackHighlighted: err.stack.replace(/[a-z_-\d]+.js:\d+:\d+/gi, '<mark>$&</mark>')
+        stackHighlighted: err.stack ? err.stack.replace(/[a-z_-\d]+.js:\d+:\d+/gi, '<mark>$&</mark>') : err
     };
     res.status(err.status || 500);
     res.format({
@@ -44,7 +44,7 @@ exports.developmentErrors = (err, req, res, next) => {
 */
 exports.productionErrors = (err, req, res, next) => {
     res.status(err.status || 500);
-    res.render('error', {
+    res.json({
         message: err.message,
         error: {}
     });

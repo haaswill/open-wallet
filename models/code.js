@@ -9,16 +9,7 @@ const CodeSchema = new mongoose.Schema({
     client: { type: mongoose.Schema.ObjectId, ref: 'Client', required: 'client is required' }
 });
 
-function autopopulate(next) {
-    this.populate('user');
-    this.populate('client');
-    next();
-}
-
 //Hash value
-
-CodeSchema.pre('find', autopopulate);
-CodeSchema.pre('findOne', autopopulate);
 
 // Export the Mongoose model
 module.exports = mongoose.model('Code', CodeSchema);

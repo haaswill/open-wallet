@@ -10,13 +10,12 @@ const ClientSchema = new mongoose.Schema({
 
 function autopopulate(next) {
     this.populate('user');
-    this.populate('client');
     next();
 }
 
 ClientSchema.pre('find', autopopulate);
 ClientSchema.pre('findOne', autopopulate);
-ClientSchema.pre('save', (callback) => {
+ClientSchema.pre('save', function (callback) {
     const client = this;
     if (!client.isModified('secret')) {
         return callback();
@@ -35,7 +34,7 @@ ClientSchema.pre('save', (callback) => {
     });
 });
 
-ClientSchema.methods.verifySecret = (secret, cb) => {
+ClientSchema.methods.verifySecret = function (secret, cb) {
     bcrypt.compare(secret, this.secret, (err, isMatch) => {
         if (err) {
             return cb(err);

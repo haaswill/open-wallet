@@ -41,7 +41,7 @@ server.grant(oauth2orize.grant.code(async (client, redirectUri, user, ares, call
     });
     // Save the auth code and check for errors
     await code.save();
-    callback(null, code.value);
+    return callback(null, code.value);
 }));
 
 // Exchange authorization codes for access tokens
@@ -50,7 +50,7 @@ server.exchange(oauth2orize.exchange.code(async (client, code, redirectUri, call
     if (authCode === undefined) {
         return callback(null, false);
     }
-    if (client._id.toString() !== authCode.client) {
+    if (client._id.toString() !== authCode.client.toString()) {
         return callback(null, false);
     }
     if (redirectUri !== authCode.redirectUri) {
@@ -66,7 +66,7 @@ server.exchange(oauth2orize.exchange.code(async (client, code, redirectUri, call
     });
     // Save the access token and check for errors
     await token.save();
-    callback(null, token);
+    return callback(null, token);
 }));
 
 // User authorization endpoint
