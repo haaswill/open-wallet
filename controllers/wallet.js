@@ -26,20 +26,22 @@ exports.getById = async (req, res) => {
     res.json(wallet);
 };
 exports.income = async (req, res) => {
+    req.body.type = 'Income';
+    req.body.wallet = req.params.id;
     req.body.user = req.user._id;
     await (new Transaction(req.body)).save();
-    await Wallet.findOneAndUpdate({ _id: req.params.id, user: req.user._id }, { value: value + req.body.value }, {
-        new: true,
-        runValidators: true
-    }).exec();
+    const wallet = await Wallet.findOne({ _id: req.params.id, user: req.user._id });
+    wallet.value += Number.parseFloat(req.body.value);
+    await wallet.save();
     res.json({ message: 'Transaction saved.' });
 };
 exports.expense = async (req, res) => {
+    req.body.type = 'Expense';
+    req.body.wallet = req.params.id;
     req.body.user = req.user._id;
     await (new Transaction(req.body)).save();
-    await Wallet.findOneAndUpdate({ _id: req.params.id, user: req.user._id }, { value: value + req.body.value }, {
-        new: true,
-        runValidators: true
-    }).exec();
+    const wallet = await Wallet.findOne({ _id: req.params.id, user: req.user._id });
+    wallet.value -= Number.parseFloat(req.body.value);
+    await wallet.save();
     res.json({ message: 'Transaction saved.' });
 };

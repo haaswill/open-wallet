@@ -51,7 +51,7 @@ passport.use(new BearerStrategy(async (accessToken, callback) => {
     if (!token) {
         return callback(null, false);
     }
-    const user = User.findOne({ _id: token.user });
+    const user = await User.findOne({ _id: token.user });
     // No user found
     if (!user) {
         return callback(null, false);
