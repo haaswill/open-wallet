@@ -27,21 +27,31 @@ exports.getById = async (req, res) => {
 };
 exports.income = async (req, res) => {
     req.body.type = 'Income';
-    req.body.wallet = req.params.id;
     req.body.user = req.user._id;
     await (new Transaction(req.body)).save();
-    const wallet = await Wallet.findOne({ _id: req.params.id, user: req.user._id });
+    const wallet = await Wallet.findOne({ _id: req.body.targetWallet, user: req.user._id });
     wallet.value += Number.parseFloat(req.body.value);
     await wallet.save();
     res.json({ message: 'Transaction saved.' });
 };
 exports.expense = async (req, res) => {
     req.body.type = 'Expense';
-    req.body.wallet = req.params.id;
     req.body.user = req.user._id;
     await (new Transaction(req.body)).save();
-    const wallet = await Wallet.findOne({ _id: req.params.id, user: req.user._id });
+    const wallet = await Wallet.findOne({ _id: req.body.targetWallet, user: req.user._id });
     wallet.value -= Number.parseFloat(req.body.value);
     await wallet.save();
+    res.json({ message: 'Transaction saved.' });
+};
+exports.transfer = async (req, res) => {
+    req.body.type = 'Transfer';
+    req.body.user = req.user._id;
+    await (new Transaction(req.body)).save();
+    const targetWallet = await Wallet.findOne({ _id: req.body.targetWallet, user: req.user._id });
+    const originWallet = await Wallet.findOne({ _id: req.body.originWallet, user: req.user._id });
+    targetWallet.value += Number.parseFloat(req.body.value);
+    originWallet.value -= Number.parseFloat(req.body.value);
+    await targetWallet.save();
+    await originWallet.save();
     res.json({ message: 'Transaction saved.' });
 };
