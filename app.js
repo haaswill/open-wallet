@@ -21,7 +21,9 @@ require('dotenv').config({ path: 'variables.env' });
 
 if (app.get('env') === 'development') {
     // Connect to MongoDB local
-    mongoose.connect(process.env.DATABASE_LOCAL);
+    //mongoose.connect(process.env.DATABASE_LOCAL);
+    // Connect to MongoDB online
+    mongoose.connect(process.env.DATABASE);
 } else {
     // Connect to MongoDB online
     mongoose.connect(process.env.DATABASE);

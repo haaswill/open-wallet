@@ -11,4 +11,7 @@ module.exports = function (app) {
     app.get('/oauth2/authorize', authentication.isAuthenticated, oauth2.authorization);
     app.post('/oauth2/authorize', authentication.isAuthenticated, oauth2.decision);
     app.post('/oauth2/token', authentication.isClientAuthenticated, oauth2.token);
+    app.get('*', function (req, res) {
+        res.render('index');
+    });
 };

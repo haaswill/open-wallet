@@ -7,7 +7,6 @@
     <p>Hi <%= user.email %>!</p>
     <p><b><%= client.name %></b> is requesting <b>full access</b> to your account.</p>
     <p>Do you approve?</p>
-
     <form action="/oauth2/authorize" method="post">
       <input name="transaction_id" type="hidden" value="<%= transactionID %>">
       <div>
@@ -15,6 +14,5 @@
       <input type="submit" value="Deny" name="cancel" id="deny">
       </div>
     </form>
-
   </body>
 </html>
