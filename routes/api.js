@@ -19,9 +19,9 @@ transaction(transactionRouter);
 client(clientRouter);
 
 module.exports = (router) => {
-    router.use('/user', userRouter);
-    router.use('/wallet', authentication.isAuthenticated, walletRouter);
-    router.use('/category', authentication.isAuthenticated, transactionCategoryRouter);
-    router.use('/transaction', authentication.isAuthenticated, transactionRouter);
-    router.use('/client', authentication.isAuthenticated, clientRouter);
+  router.use('/user', userRouter);
+  router.use('/wallet', authentication.isAuthenticated, walletRouter);
+  router.use('/category', authentication.isAuthenticated, transactionCategoryRouter);
+  router.use('/transaction', authentication.isAuthenticated, transactionRouter);
+  router.use('/client', authentication.isAuthenticated, clientRouter);
 }
