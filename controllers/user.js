@@ -3,22 +3,17 @@ const axios = require('axios');
 const User = require('../models/user');
 
 exports.createWithFacebook = async (req, res) => {
+  const { token } = req.body;
   const { email, first_name, last_name } = await getFacebookUserInfo(req.body.token);
-  let user = await findByEmail(email);
-  if (!user) {
-    // generate token
-    const newUser = {
-      email,
-      name: {
-        first: first_name,
-        last: last_name
-      },
-      token: ''
-    };
-    user = await create(newUser);
-  }
-  user.token = generateJwt(user._id);
-  await user.save();
+  const newUser = {
+    email,
+    name: {
+      first: first_name,
+      last: last_name
+    },
+    token: generateJwt(token)
+  };
+  const user = await createOrUpdate(newUser);
   res.json(user);
 };
 
@@ -31,14 +26,23 @@ const getFacebookUserInfo = async (token) => {
 
 //getGoogleUserInfo
 
-const create = async (user) => {
-  return await (new User(user)).save();
+const createOrUpdate = async (user) => {
+  const {
+    email,
+    name: { first, last },
+    token
+  } = await User.findOneAndUpdate({ email: user.email }, user, { upsert: true, setDefaultsOnInsert: true, new: true });
+  return {
+    email,
+    name: { first, last },
+    token
+  };
 };
 
 const findByEmail = async (email) => {
   return await User.findOne({ email });
 };
 
-const generateJwt = (id) => {
-  return jwt.sign({ id }, process.env.JWTSECRET, { expiresIn: "2h" });
+const generateJwt = (token) => {
+  return jwt.sign({ token }, process.env.JWTSECRET, { expiresIn: "7d" });
 };
