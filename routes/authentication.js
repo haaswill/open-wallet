@@ -1,25 +1,17 @@
 const passport = require('passport');
-const BasicStrategy = require('passport-http').BasicStrategy;
+const BearerStrategy = require('passport-http-bearer').Strategy;
 const User = require('../models/user');
 
-passport.use(new BasicStrategy(async (email, password, callback) => {
-  const user = await User.findOne({ email: email });
-  // No user found with that email
-  if (!user) {
-    return callback(null, false);
-  }
-  // Make sure the password is correct
-  user.verifyPassword(password, (err, isMatch) => {
+passport.use(new BearerStrategy((token, done) => {
+  User.findOne({ token }, (err, user) => {
     if (err) {
-      return callback(err);
+      return done(err);
     }
-    // Password did not match
-    if (!isMatch) {
-      return callback(null, false);
+    if (!user) {
+      return done(null, false);
     }
-    // Success
-    return callback(null, user);
+    return done(null, user, { scope: 'all' });
   });
 }));
 
-exports.isAuthenticated = passport.authenticate(['basic'], { session: false });
+exports.isAuthenticated = passport.authenticate(['bearer'], { session: false });

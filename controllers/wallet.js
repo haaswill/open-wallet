@@ -30,7 +30,7 @@ exports.income = async (req, res) => {
   req.body.user = req.user._id;
   const transactionPromise = (new Transaction(req.body)).save();
   const walletPromise = Wallet.findOne({ _id: req.body.targetWallet, user: req.user._id });
-  const [transaction, store] = await Promise.all([transactionPromise, walletPromise]);
+  const [transaction, wallet] = await Promise.all([transactionPromise, walletPromise]);
   wallet.value += Number.parseFloat(req.body.value);
   await wallet.save();
   res.json({ message: 'Transaction saved.' });
@@ -40,7 +40,7 @@ exports.expense = async (req, res) => {
   req.body.user = req.user._id;
   const transactionPromise = (new Transaction(req.body)).save();
   const walletPromise = Wallet.findOne({ _id: req.body.targetWallet, user: req.user._id });
-  const [transaction, store] = await Promise.all([transactionPromise, walletPromise]);
+  const [transaction, wallet] = await Promise.all([transactionPromise, walletPromise]);
   wallet.value -= Number.parseFloat(req.body.value);
   await wallet.save();
   res.json({ message: 'Transaction saved.' });

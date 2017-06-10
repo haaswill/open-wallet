@@ -8,8 +8,8 @@ const NameSchema = new mongoose.Schema({
 
 const UserSchema = new mongoose.Schema({
   email: { type: String, trim: true, unique: true, lowercase: true, maxlength: 256, required: 'email is required.' },
-  access_token: { type: String, trim: true, minlength: 256, maxlength: 256 },
-  password: { type: String, trim: true, required: 'password is required.' },
+  token: { type: String, trim: true },
+  password: { type: String, trim: true },
   name: { type: NameSchema, required: 'name is requdired.' }
 });
 
