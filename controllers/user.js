@@ -41,7 +41,6 @@ const getGoogleUserAsync = async (token) => {
   const { data } = await axios.get('https://www.googleapis.com/userinfo/v2/me', {
     headers: { Authorization: `Bearer ${token}` }
   });
-  console.log(data);
   return data;
 };
 
