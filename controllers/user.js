@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 exports.createWithFacebook = async (req, res) => {
   const { token } = req.body;
-  const { email, first_name, last_name } = await getFacebookUserInfo(req.body.token);
+  const { email, first_name, last_name } = await getFacebookUserAsync(token);
   const newUser = {
     email,
     name: {
@@ -13,20 +13,39 @@ exports.createWithFacebook = async (req, res) => {
     },
     token: generateJwt(token)
   };
-  const user = await createOrUpdate(newUser);
+  const user = await createOrUpdateAsync(newUser);
   res.json(user);
 };
 
-//createByGoogle
+exports.createWithGoogle = async (req, res) => {
+  const { token } = req.body;
+  const { email, given_name, family_name } = await getGoogleUserAsync(token);
+  const newUser = {
+    email,
+    name: {
+      first: given_name,
+      last: family_name
+    },
+    token: generateJwt(token)
+  };
+  const user = await createOrUpdateAsync(newUser);
+  res.json(user);
+};
 
-const getFacebookUserInfo = async (token) => {
+const getFacebookUserAsync = async (token) => {
   const { data } = await axios.get(`https://graph.facebook.com/me?fields=email,first_name,last_name&access_token=${token}`);
   return data;
 };
 
-//getGoogleUserInfo
+const getGoogleUserAsync = async (token) => {
+  const { data } = await axios.get('https://www.googleapis.com/userinfo/v2/me', {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  console.log(data);
+  return data;
+};
 
-const createOrUpdate = async (user) => {
+const createOrUpdateAsync = async (user) => {
   const {
     email,
     name: { first, last },
