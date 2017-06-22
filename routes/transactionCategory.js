@@ -1,4 +1,4 @@
-const transactionCategory = require('../controllers/transactionCategory');
+const transactionCategory = require('../components/TransactionCategory');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 module.exports = function (router) {

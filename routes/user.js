@@ -1,4 +1,4 @@
-const user = require('../controllers/user');
+const user = require('../components/User');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 module.exports = function (router) {

@@ -1,4 +1,4 @@
-const transaction = require('../controllers/transaction');
+const transaction = require('../components/Transaction');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 module.exports = function (router) {

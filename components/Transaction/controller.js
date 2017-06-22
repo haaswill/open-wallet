@@ -1,4 +1,4 @@
-const Transaction = require('../models/transaction');
+const Transaction = require('./model');
 
 exports.delete = async (req, res) => {
   await Transaction.findByIdAndRemove(req.params.id);
@@ -25,4 +25,4 @@ exports.getById = async (req, res) => {
   res.json(transaction);
 };
 
-exports.createAsync = async transaction => await (new Transaction(transaction)).save();
+exports.createAsync = async transaction => await Transaction.createAsync(transaction);

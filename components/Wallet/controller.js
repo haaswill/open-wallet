@@ -1,5 +1,5 @@
-const Wallet = require('../models/wallet');
-const transaction = require('./transaction');
+const Wallet = require('./model');
+const Transaction = require('../Transaction/model');
 
 exports.create = async (req, res) => {
   req.body.user = req.user._id;
@@ -30,7 +30,7 @@ exports.getById = async (req, res) => {
 exports.income = async (req, res) => {
   req.body.type = 'Income';
   req.body.user = req.user._id;
-  const transactionPromise = transaction.createAsync(req.body);
+  const transactionPromise = Transaction.createAsync(req.body);
   const walletPromise = Wallet.findOneByIdAndUserAsync(req.body.targetWallet, req.user._id);
   const [transaction, wallet] = await Promise.all([transactionPromise, walletPromise]);
   wallet.value += Number.parseFloat(req.body.value);
@@ -41,7 +41,7 @@ exports.income = async (req, res) => {
 exports.expense = async (req, res) => {
   req.body.type = 'Expense';
   req.body.user = req.user._id;
-  const transactionPromise = transaction.createAsync(req.body);
+  const transactionPromise = Transaction.createAsync(req.body);
   const walletPromise = Wallet.findOneByIdAndUserAsync(req.body.targetWallet, req.user._id);
   const [transaction, wallet] = await Promise.all([transactionPromise, walletPromise]);
   wallet.value -= Number.parseFloat(req.body.value);
@@ -52,7 +52,7 @@ exports.expense = async (req, res) => {
 exports.transfer = async (req, res) => {
   req.body.type = 'Transfer';
   req.body.user = req.user._id;
-  await transaction.createAsync(req.body);
+  await Transaction.createAsync(req.body);
   const targetWalletPromise = Wallet.findOneByIdAndUserAsync(req.body.targetWallet, req.user._id);
   const originWalletPromise = Wallet.findOneByIdAndUserAsync(req.body.originWallet, req.user._id);
   const [targetWallet, originWallet] = await Promise.all([targetWalletPromise, originWalletPromise]);

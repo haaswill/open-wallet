@@ -1,4 +1,4 @@
-const TransactionCategory = require('../models/transactionCategory');
+const TransactionCategory = require('./model');
 
 exports.create = async (req, res) => {
   req.body.user = req.user._id;

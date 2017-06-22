@@ -1,6 +1,6 @@
 const passport = require('passport');
 const BearerStrategy = require('passport-http-bearer').Strategy;
-const User = require('../models/user');
+const User = require('../components/User');
 
 passport.use(new BearerStrategy((token, done) => {
   User.findOne({ token }, (err, user) => {
