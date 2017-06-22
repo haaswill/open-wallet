@@ -25,3 +25,5 @@ exports.getById = async (req, res) => {
   const transaction = await Transaction.findById(req.params.id);
   res.json(transaction);
 };
+
+exports.createAsync = async transaction => (new Transaction(transaction)).save();

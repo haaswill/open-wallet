@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Open Source Wallet",
   "engines": {
-    "node": "7.10.0"
+    "node": ">=7.10.0"
   },
   "main": "app.js",
   "scripts": {
@@ -16,6 +16,7 @@
     "url": "git+https://github.com/haaswill/open-wallet.git"
   },
   "keywords": [
+    "open-source",
     "wallet",
     "node",
     "express",
@@ -40,5 +41,6 @@
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-http-bearer": "^1.0.1"
-  }
+  },
+  "devDependencies": {}
 }

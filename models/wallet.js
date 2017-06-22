@@ -16,4 +16,27 @@ WalletSchema.pre('find', autopopulate);
 WalletSchema.pre('findOne', autopopulate);
 WalletSchema.pre('findById', autopopulate);
 
+WalletSchema.methods.createAsync = async function (wallet) {
+  return (new this(wallet)).save();
+};
+
+WalletSchema.methods.findByIdAndUpdateAsync = async function (id, wallet) {
+  return this.model('Wallet').findByIdAndUpdate(id, wallet, {
+    new: true,
+    runValidators: true
+  }).exec();
+};
+
+WalletSchema.methods.findByIdAndRemoveAsync = async function (id) {
+  return this.model('Wallet').findByIdAndRemove(id);
+};
+
+WalletSchema.methods.findOneByUserAsync = async function (user) {
+  return this.model('Wallet').findOne({ user });
+};
+
+WalletSchema.methods.findOneByIdAndUserAsync = async function (id, user) {
+  return this.model('Wallet').findOne({ _id: id, user });
+};
+
 module.exports = mongoose.model('Wallet', WalletSchema);

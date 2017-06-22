@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
+const axios = require('axios');
+const jwt = require('jsonwebtoken');
 
 const NameSchema = new mongoose.Schema({
   first: { type: String, trim: true, maxlength: 30 },
@@ -40,5 +42,21 @@ UserSchema.methods.verifyPassword = function (password, cb) {
     cb(null, isMatch);
   });
 };
+
+UserSchema.methods.createOrUpdateAsync = async function (user) {
+  return this.model('User').findOneAndUpdate({ email: user.email }, user, { upsert: true, setDefaultsOnInsert: true, new: true });
+};
+
+UserSchema.methods.getFacebookUserAsync = async token => {
+  return axios.get(`https://graph.facebook.com/me?fields=email,first_name,last_name&access_token=${token}`);
+};
+
+UserSchema.methods.getGoogleUserAsync = async token => {
+  return axios.get('https://www.googleapis.com/userinfo/v2/me', {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+};
+
+UserSchema.methods.generateJwt = token => jwt.sign({ token }, process.env.JWTSECRET, { expiresIn: "7d" });
 
 module.exports = mongoose.model('User', UserSchema);
