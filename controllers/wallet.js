@@ -13,7 +13,7 @@ exports.update = async (req, res) => {
 };
 
 exports.delete = async (req, res) => {
-  await Wallet.findByIdAndRemoveAsync(req.params.id);
+  await Wallet.findByIdAndRemove(req.params.id);
   res.json({ message: 'Wallet deleted.' });
 };
 
@@ -23,7 +23,7 @@ exports.getByUser = async (req, res) => {
 };
 
 exports.getById = async (req, res) => {
-  const wallet = await Wallet.findByIdAndRemoveAsync(req.params.id);
+  const wallet = await Wallet.findById(req.params.id);
   res.json(wallet);
 };
 

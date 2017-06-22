@@ -22,4 +22,20 @@ TransactionSchema.pre('find', autopopulate);
 TransactionSchema.pre('findOne', autopopulate);
 TransactionSchema.pre('findById', autopopulate);
 
+TransactionSchema.methods.createAsync = async function (transaction) {
+  return (new this(transaction)).save();
+};
+
+TransactionSchema.methods.findByUser = async function (user) {
+  return this.model('Transaction').find({ user });
+};
+
+TransactionSchema.methods.findByWallet = async function (wallet) {
+  return this.model('Transaction').find({ wallet });
+};
+
+TransactionSchema.methods.findByTransactionCategory = async function (transactionCategory) {
+  return this.model('Transaction').find({ transactionCategory });
+};
+
 module.exports = mongoose.model('Transaction', TransactionSchema);

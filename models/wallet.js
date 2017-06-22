@@ -27,10 +27,6 @@ WalletSchema.methods.findByIdAndUpdateAsync = async function (id, wallet) {
   }).exec();
 };
 
-WalletSchema.methods.findByIdAndRemoveAsync = async function (id) {
-  return this.model('Wallet').findByIdAndRemove(id);
-};
-
 WalletSchema.methods.findOneByUserAsync = async function (user) {
   return this.model('Wallet').findOne({ user });
 };

@@ -15,4 +15,19 @@ function autopopulate(next) {
 TransactionCategorySchema.pre('find', autopopulate);
 TransactionCategorySchema.pre('findById', autopopulate);
 
+TransactionCategorySchema.methods.createAsync = async function (transactionCategory) {
+  return (new this(transactionCategory)).save();
+};
+
+TransactionCategorySchema.methods.findByIdAndUpdateAsync = async function (id, transactionCategory) {
+  return this.model('TransactionCategory').findByIdAndUpdate(id, transactionCategory, {
+    new: true,
+    runValidators: true
+  }).exec();
+};
+
+TransactionCategorySchema.methods.findByUser = async function (user) {
+  return this.model('TransactionCategory').find({ user });
+};
+
 module.exports = mongoose.model('TransactionCategory', TransactionCategorySchema);

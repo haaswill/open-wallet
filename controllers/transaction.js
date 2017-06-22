@@ -1,29 +1,28 @@
 const Transaction = require('../models/transaction');
-const Wallet = require('../models/wallet');
 
 exports.delete = async (req, res) => {
-  const transaction = await Transaction.findById(req.params.id);
-  const wallet = await Wallet.findById(transaction.walletId);
-  wallet.value += - transaction.value;
-  await wallet.save();
-  await transaction.remove();
+  await Transaction.findByIdAndRemove(req.params.id);
   res.json({ message: 'Transaction deleted.' });
 };
+
 exports.getByUser = async (req, res) => {
-  const transactions = await Transaction.find({ user: req.user._id });
+  const transactions = await Transaction.findByUser(req.user._id);
   res.json(transactions);
 };
+
 exports.getByWallet = async (req, res) => {
-  const transactions = await Transaction.find({ wallet: req.params.walletId });
+  const transactions = await Transaction.findByWallet(req.params.walletId);
   res.json(transactions);
 };
+
 exports.getByTransactionCategory = async (req, res) => {
-  const transactions = await Transaction.find({ transactionCategory: req.params.transactionCategoryId });
+  const transactions = await Transaction.findByTransactionCategory(req.params.transactionCategoryId);
   res.json(transactions);
 };
+
 exports.getById = async (req, res) => {
   const transaction = await Transaction.findById(req.params.id);
   res.json(transaction);
 };
 
-exports.createAsync = async transaction => (new Transaction(transaction)).save();
+exports.createAsync = async transaction => await (new Transaction(transaction)).save();
