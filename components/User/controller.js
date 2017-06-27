@@ -1,6 +1,8 @@
 const User = require('./model');
+const Wallet = require('../Wallet/model');
 
 exports.createOrUpdateWithFacebook = async (req, res) => {
+  let accountBalance = 0;
   const { token } = req.body;
   const { data: { email, first_name, last_name } } = await User.getFacebookUserAsync(token);
   const newUser = {
@@ -11,11 +13,16 @@ exports.createOrUpdateWithFacebook = async (req, res) => {
     },
     token: User.generateJwt(token)
   };
-  const { data } = await User.createOrUpdateAsync(newUser);
-  res.json(data);
+  const user = await User.createOrUpdateAsync(newUser);
+  const wallets = await Wallet.findByUserAsync(user._id);
+  if (wallets.length) {
+    accountBalance = await Wallet.getAccountBalanceByUserAsync(user._id);
+  }
+  res.json({ user, wallets, accountBalance });
 };
 
 exports.createOrUpdateWithGoogle = async (req, res) => {
+  let accountBalance = 0;
   const { token } = req.body;
   const { data: { email, given_name, family_name } } = await User.getGoogleUserAsync(token);
   const newUser = {
@@ -26,6 +33,21 @@ exports.createOrUpdateWithGoogle = async (req, res) => {
     },
     token: User.generateJwt(token)
   };
-  const { data } = await User.createOrUpdateAsync(newUser);
-  res.json(data);
+  const user = await User.createOrUpdateAsync(newUser);
+  const wallets = await Wallet.findByUserAsync(user._id);
+  if (wallets.length) {
+    accountBalance = await Wallet.getAccountBalanceByUserAsync(user._id);
+  }
+  res.json({ user, wallets, accountBalance });
+};
+
+exports.createOrUpdate = async (req, res) => {
+  let accountBalance = 0;
+  req.body.token = User.generateJwt(req.body.email);
+  const user = await User.createOrUpdateAsync(req.body);
+  const wallets = await Wallet.findByUserAsync(user._id);
+  if (wallets.length > 0) {
+    accountBalance = await Wallet.getAccountBalanceByUserAsync(user._id);
+  }
+  res.json({ user, wallets, accountBalance });
 };

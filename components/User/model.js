@@ -34,7 +34,7 @@ UserSchema.pre('save', function (callback) {
   });
 });
 
-UserSchema.methods.verifyPassword = function (password, cb) {
+UserSchema.statics.verifyPassword = function (password, cb) {
   bcrypt.compare(password, this.password, (err, isMatch) => {
     if (err) {
       return cb(err);
@@ -43,20 +43,20 @@ UserSchema.methods.verifyPassword = function (password, cb) {
   });
 };
 
-UserSchema.methods.createOrUpdateAsync = async function (user) {
-  return this.model('User').findOneAndUpdate({ email: user.email }, user, { upsert: true, setDefaultsOnInsert: true, new: true });
+UserSchema.statics.createOrUpdateAsync = async function (user) {
+  return this.findOneAndUpdate({ email: user.email }, user, { upsert: true, setDefaultsOnInsert: true, new: true });
 };
 
-UserSchema.methods.getFacebookUserAsync = async token => {
+UserSchema.statics.getFacebookUserAsync = async token => {
   return axios.get(`https://graph.facebook.com/me?fields=email,first_name,last_name&access_token=${token}`);
 };
 
-UserSchema.methods.getGoogleUserAsync = async token => {
+UserSchema.statics.getGoogleUserAsync = async token => {
   return axios.get('https://www.googleapis.com/userinfo/v2/me', {
     headers: { Authorization: `Bearer ${token}` }
   });
 };
 
-UserSchema.methods.generateJwt = token => jwt.sign({ token }, process.env.JWTSECRET, { expiresIn: "7d" });
+UserSchema.statics.generateJwt = token => jwt.sign({ token }, process.env.JWTSECRET, { expiresIn: "7d" });
 
 module.exports = mongoose.model('User', UserSchema);

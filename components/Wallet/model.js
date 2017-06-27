@@ -16,23 +16,38 @@ WalletSchema.pre('find', autopopulate);
 WalletSchema.pre('findOne', autopopulate);
 WalletSchema.pre('findById', autopopulate);
 
-WalletSchema.methods.createAsync = async function (wallet) {
+WalletSchema.statics.createAsync = async function (wallet) {
   return (new this(wallet)).save();
 };
 
-WalletSchema.methods.findByIdAndUpdateAsync = async function (id, wallet) {
-  return this.model('Wallet').findByIdAndUpdate(id, wallet, {
+WalletSchema.statics.findByIdAndUpdateAsync = async function (id, wallet) {
+  return this.findByIdAndUpdate(id, wallet, {
     new: true,
     runValidators: true
   }).exec();
 };
 
-WalletSchema.methods.findOneByUserAsync = async function (user) {
-  return this.model('Wallet').findOne({ user });
+WalletSchema.statics.findByUserAsync = async function (user) {
+  return this.find({ user });
 };
 
-WalletSchema.methods.findOneByIdAndUserAsync = async function (id, user) {
-  return this.model('Wallet').findOne({ _id: id, user });
+WalletSchema.statics.findByIdAndUserAsync = async function (id, user) {
+  return this.findOne({ _id: id, user });
+};
+
+WalletSchema.statics.getAccountBalanceByUserAsync = async function (user) {
+  return this.aggregate([
+    {
+      $match: {
+        user
+      },
+      $group: {
+        accountBalance: {
+          $sum: '$value'
+        }
+      }
+    }
+  ]);
 };
 
 module.exports = mongoose.model('Wallet', WalletSchema);

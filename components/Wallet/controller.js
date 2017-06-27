@@ -18,7 +18,7 @@ exports.delete = async (req, res) => {
 };
 
 exports.getByUser = async (req, res) => {
-  const wallets = await Wallet.findOneByUserAsync(req.user._id);
+  const wallets = await Wallet.findByUserAsync(req.user._id);
   res.json(wallets);
 };
 
@@ -31,7 +31,7 @@ exports.income = async (req, res) => {
   req.body.type = 'Income';
   req.body.user = req.user._id;
   const transactionPromise = Transaction.createAsync(req.body);
-  const walletPromise = Wallet.findOneByIdAndUserAsync(req.body.targetWallet, req.user._id);
+  const walletPromise = Wallet.findByIdAndUserAsync(req.body.targetWallet, req.user._id);
   const [transaction, wallet] = await Promise.all([transactionPromise, walletPromise]);
   wallet.value += Number.parseFloat(req.body.value);
   await wallet.save();
@@ -42,7 +42,7 @@ exports.expense = async (req, res) => {
   req.body.type = 'Expense';
   req.body.user = req.user._id;
   const transactionPromise = Transaction.createAsync(req.body);
-  const walletPromise = Wallet.findOneByIdAndUserAsync(req.body.targetWallet, req.user._id);
+  const walletPromise = Wallet.findByIdAndUserAsync(req.body.targetWallet, req.user._id);
   const [transaction, wallet] = await Promise.all([transactionPromise, walletPromise]);
   wallet.value -= Number.parseFloat(req.body.value);
   await wallet.save();
@@ -53,8 +53,8 @@ exports.transfer = async (req, res) => {
   req.body.type = 'Transfer';
   req.body.user = req.user._id;
   await Transaction.createAsync(req.body);
-  const targetWalletPromise = Wallet.findOneByIdAndUserAsync(req.body.targetWallet, req.user._id);
-  const originWalletPromise = Wallet.findOneByIdAndUserAsync(req.body.originWallet, req.user._id);
+  const targetWalletPromise = Wallet.findByIdAndUserAsync(req.body.targetWallet, req.user._id);
+  const originWalletPromise = Wallet.findByIdAndUserAsync(req.body.originWallet, req.user._id);
   const [targetWallet, originWallet] = await Promise.all([targetWalletPromise, originWalletPromise]);
   targetWallet.value += Number.parseFloat(req.body.value);
   originWallet.value -= Number.parseFloat(req.body.value);

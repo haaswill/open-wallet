@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const ejs = require('ejs');
+//const ejs = require('ejs');
 
 const routes = require('./routes');
 const errorHandlers = require('./handlers/errorHandlers');
@@ -12,7 +12,7 @@ const app = express();
 // Check if node version is 7.6+
 const [major, minor] = process.versions.node.split('.').map(parseFloat);
 if (major <= 7 && minor <= 5) {
-  console.log('🚫 Node version is older than 7.6');
+  console.error('🚫 Node version is older than 7.6');
   process.exit();
 }
 
