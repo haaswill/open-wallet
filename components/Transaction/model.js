@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const { mongoose } = require('../../config/database');
 
 const TransactionSchema = new mongoose.Schema({
   description: { type: String, trim: true, maxlength: 50, required: 'description is required.' },

@@ -1,3 +1,5 @@
+'use strict';
+
 const User = require('./model');
 const Wallet = require('../Wallet/model');
 
@@ -43,7 +45,8 @@ exports.createOrUpdateWithGoogle = async (req, res) => {
 
 exports.createOrUpdate = async (req, res) => {
   let accountBalance = 0;
-  req.body.token = User.generateJwt(req.body.email);
+  const { email, password } = req.body;
+  const token = User.generateJwt(email);
   const user = await User.createOrUpdateAsync(req.body);
   const wallets = await Wallet.findByUserAsync(user._id);
   if (wallets.length > 0) {

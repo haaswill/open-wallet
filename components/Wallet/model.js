@@ -1,4 +1,6 @@
-const mongoose = require('mongoose');
+'use strict';
+
+const { mongoose } = require('../../config/database');
 
 const WalletSchema = new mongoose.Schema({
   description: { type: String, trim: true, maxlength: 20, required: 'description is required.' },

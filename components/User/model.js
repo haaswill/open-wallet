@@ -1,7 +1,10 @@
-const mongoose = require('mongoose');
+'use strict';
+
+const { mongoose } = require('../../config/database');
 const bcrypt = require('bcrypt-nodejs');
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
+const validator = require('validator');
 
 const NameSchema = new mongoose.Schema({
   first: { type: String, trim: true, maxlength: 30 },
@@ -9,7 +12,7 @@ const NameSchema = new mongoose.Schema({
 });
 
 const UserSchema = new mongoose.Schema({
-  email: { type: String, trim: true, unique: true, lowercase: true, maxlength: 256, required: 'email is required.' },
+  email: { type: String, trim: true, unique: true, lowercase: true, maxlength: 256, validate: [validator.isEmail, 'invalid email address'], required: 'email is required.' },
   token: { type: String, trim: true },
   password: { type: String, trim: true },
   name: { type: NameSchema, required: 'name is requdired.' }
@@ -43,8 +46,16 @@ UserSchema.statics.verifyPassword = function (password, cb) {
   });
 };
 
+UserSchema.statics.createAsync = async function (transaction) {
+  return (new this(transaction)).save();
+};
+
+UserSchema.statics.updateAsync = async function (user) {
+  return this.findOneAndUpdate({ email: user.email }, user, { runValidators: true, new: true });
+};
+
 UserSchema.statics.createOrUpdateAsync = async function (user) {
-  return this.findOneAndUpdate({ email: user.email }, user, { upsert: true, setDefaultsOnInsert: true, new: true });
+  return this.findOneAndUpdate({ email: user.email }, user, { upsert: true, setDefaultsOnInsert: true, runValidators: true, new: true });
 };
 
 UserSchema.statics.getFacebookUserAsync = async token => {

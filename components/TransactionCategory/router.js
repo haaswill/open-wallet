@@ -1,5 +1,5 @@
-const transactionCategory = require('../components/TransactionCategory');
-const { catchErrors } = require('../handlers/errorHandlers');
+const transactionCategory = require('./controller');
+const { catchErrors } = require('../../handlers/errorHandlers');
 
 module.exports = function (router) {
   router.post('/', catchErrors(transactionCategory.create));

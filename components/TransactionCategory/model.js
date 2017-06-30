@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const { mongoose } = require('../../config/database');
 
 const TransactionCategorySchema = new mongoose.Schema({
   description: { type: String, trim: true, maxlength: 50, required: 'description must be informed' },

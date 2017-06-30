@@ -1,9 +1,9 @@
 const express = require('express');
-const authentication = require('./authentication');
-const user = require('./user');
-const wallet = require('./wallet');
-const transactionCategory = require('./transactionCategory');
-const transaction = require('./transaction');
+const authentication = require('../config/passport');
+const user = require('../components/User/router');
+const wallet = require('../components/Wallet/router');
+const transactionCategory = require('../components/TransactionCategory/router');
+const transaction = require('../components/Transaction/router');
 
 const userRouter = express.Router();
 const walletRouter = express.Router();

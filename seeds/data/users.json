@@ -1,0 +1,47 @@
+[
+  {
+    "email": "johndoe@gmail.com",
+    "token": null,
+    "password": "1234",
+    "name": {
+      "first": "John",
+      "last": "Doe"
+    }
+  },
+  {
+    "email": "janedoe@gmail.com",
+    "token": null,
+    "password": "1234",
+    "name": {
+      "first": "Jane",
+      "last": "Doe"
+    }
+  },
+  {
+    "email": "juniordoe@gmail.com",
+    "token": null,
+    "password": "1234",
+    "name": {
+      "first": "Junior",
+      "last": "Doe"
+    }
+  },
+  {
+    "email": "jareddoe@gmail.com",
+    "token": null,
+    "password": "1234",
+    "name": {
+      "first": "Jared",
+      "last": "Doe"
+    }
+  },
+  {
+    "email": "jessicadoe@gmail.com",
+    "token": null,
+    "password": "1234",
+    "name": {
+      "first": "Jessica",
+      "last": "Doe"
+    }
+  }
+]

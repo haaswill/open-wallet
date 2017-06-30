@@ -1,5 +1,5 @@
-const wallet = require('../components/Wallet');
-const { catchErrors } = require('../handlers/errorHandlers');
+const wallet = require('./controller');
+const { catchErrors } = require('../../handlers/errorHandlers');
 
 module.exports = function (router) {
   router.post('/', catchErrors(wallet.create));

@@ -1,7 +1,9 @@
 {
   "env": {
     "node": true,
-    "es6": true
+    "es6": true,
+    "mocha": true,
+    "mongo": true
   },
   "extends": [
     "eslint:recommended"
@@ -13,5 +15,8 @@
       "jsx": true,
       "experimentalObjectRestSpread": true
     }
+  },
+  "rules": {
+    "no-console": 0
   }
 }

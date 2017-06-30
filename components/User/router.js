@@ -1,5 +1,5 @@
-const user = require('../components/User');
-const { catchErrors } = require('../handlers/errorHandlers');
+const user = require('./controller');
+const { catchErrors } = require('../../handlers/errorHandlers');
 
 module.exports = function (router) {
   router.post('/facebook', catchErrors(user.createOrUpdateWithFacebook));

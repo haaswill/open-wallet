@@ -1,12 +1,13 @@
+'use strict';
+
 const express = require('express');
-const mongoose = require('mongoose');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-//const ejs = require('ejs');
 
 const routes = require('./routes');
 const errorHandlers = require('./handlers/errorHandlers');
+const database = require('./config/database');
 const app = express();
 
 // Check if node version is 7.6+
@@ -23,17 +24,11 @@ if (app.get('env') === 'development') {
   // Connect to MongoDB local
   //mongoose.connect(process.env.DATABASE_LOCAL);
   // Connect to MongoDB online
-  mongoose.connect(process.env.DATABASE);
+  database.connect(process.env.DATABASE);
 } else {
   // Connect to MongoDB online
-  mongoose.connect(process.env.DATABASE);
+  database.connect(process.env.DATABASE_PROD);
 }
-// Tell Mongoose to use ES6 promises
-mongoose.Promise = global.Promise;
-// Handle bad connection
-mongoose.connection.on('error', (err) => {
-  console.error(`🚫 ${err.message}`);
-});
 
 app.set('view engine', 'ejs');
 app.use('/assets', express.static(__dirname + '/public'));
