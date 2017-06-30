@@ -37,6 +37,8 @@ UserSchema.pre('save', function (callback) {
   });
 });
 
+UserSchema.statics.generateJwt = token => jwt.sign({ token }, process.env.JWTSECRET, { expiresIn: "7d" });
+
 UserSchema.statics.verifyPassword = function (password, cb) {
   bcrypt.compare(password, this.password, (err, isMatch) => {
     if (err) {
@@ -46,28 +48,55 @@ UserSchema.statics.verifyPassword = function (password, cb) {
   });
 };
 
-UserSchema.statics.createAsync = async function (transaction) {
-  return (new this(transaction)).save();
+UserSchema.statics.findOneByEmailAsync = async function (email) {
+  return this.findOne({ email });
+}
+
+UserSchema.statics.createAsync = async function (user) {
+  return (new this(user)).save();
 };
 
 UserSchema.statics.updateAsync = async function (user) {
   return this.findOneAndUpdate({ email: user.email }, user, { runValidators: true, new: true });
 };
 
-UserSchema.statics.createOrUpdateAsync = async function (user) {
-  return this.findOneAndUpdate({ email: user.email }, user, { upsert: true, setDefaultsOnInsert: true, runValidators: true, new: true });
+UserSchema.statics.createOrUpdateAsync = async function (userData) {
+  const user = await this.findOneByEmailAsync(userData.email);
+  if (user) {
+    // Update user data
+    return await this.updateAsync(userData);
+  } else {
+    // Create new user
+    return await this.createAsync(userData);
+  }
 };
 
-UserSchema.statics.getFacebookUserAsync = async token => {
-  return axios.get(`https://graph.facebook.com/me?fields=email,first_name,last_name&access_token=${token}`);
+UserSchema.statics.getFacebookUser = async function (token) {
+  const { data: { email, first_name, last_name } } = await axios.get(`https://graph.facebook.com/me?fields=email,first_name,last_name&access_token=${token}`);
+  const user = {
+    email,
+    name: {
+      first: first_name,
+      last: last_name
+    },
+    token: this.generateJwt(token)
+  };
+  return user;
 };
 
-UserSchema.statics.getGoogleUserAsync = async token => {
-  return axios.get('https://www.googleapis.com/userinfo/v2/me', {
+UserSchema.statics.getGoogleUser = async function (token) {
+  const { data: { email, given_name, family_name } } = await axios.get('https://www.googleapis.com/userinfo/v2/me', {
     headers: { Authorization: `Bearer ${token}` }
   });
+  const user = {
+    email,
+    name: {
+      first: given_name,
+      last: family_name
+    },
+    token: this.generateJwt(token)
+  };
+  return user;
 };
-
-UserSchema.statics.generateJwt = token => jwt.sign({ token }, process.env.JWTSECRET, { expiresIn: "7d" });
 
 module.exports = mongoose.model('User', UserSchema);
