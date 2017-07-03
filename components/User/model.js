@@ -61,9 +61,6 @@ UserSchema.statics.updateAsync = async function (user) {
 };
 
 UserSchema.statics.createOrUpdateAsync = async function (userData) {
-  if (!userData.email) {
-    throw new Error('email ir required');
-  }
   const user = await this.findOneByEmailAsync(userData.email);
   if (user) {
     // Update user data
@@ -74,7 +71,7 @@ UserSchema.statics.createOrUpdateAsync = async function (userData) {
   }
 };
 
-UserSchema.statics.getFacebookUserAsync = async function (token) {
+UserSchema.statics.getFacebookUser = async function (token) {
   const { data: { email, first_name, last_name } } = await axios.get(`https://graph.facebook.com/me?fields=email,first_name,last_name&access_token=${token}`);
   const user = {
     email,
@@ -87,7 +84,7 @@ UserSchema.statics.getFacebookUserAsync = async function (token) {
   return user;
 };
 
-UserSchema.statics.getGoogleUserAsync = async function (token) {
+UserSchema.statics.getGoogleUser = async function (token) {
   const { data: { email, given_name, family_name } } = await axios.get('https://www.googleapis.com/userinfo/v2/me', {
     headers: { Authorization: `Bearer ${token}` }
   });
