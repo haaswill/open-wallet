@@ -8,7 +8,7 @@ exports.create = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  const wallet = await Wallet.findByIdAndUpdateAsync(req.params.id, req.body);
+  const wallet = await Wallet.updateAsync(req.params.id, req.body);
   res.json(wallet);
 };
 

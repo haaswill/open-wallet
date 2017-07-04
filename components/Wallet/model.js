@@ -1,6 +1,7 @@
 'use strict';
 
 const { mongoose } = require('../../config/database');
+const ObjectId = mongoose.Types.ObjectId;
 
 const WalletSchema = new mongoose.Schema({
   description: { type: String, trim: true, maxlength: 20, required: 'description is required.' },
@@ -9,24 +10,12 @@ const WalletSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.ObjectId, ref: 'User', required: 'user is required' }
 });
 
-function autopopulate(next) {
-  this.populate('user');
-  next();
-}
-
-WalletSchema.pre('find', autopopulate);
-WalletSchema.pre('findOne', autopopulate);
-WalletSchema.pre('findById', autopopulate);
-
 WalletSchema.statics.createAsync = async function (wallet) {
   return (new this(wallet)).save();
 };
 
-WalletSchema.statics.findByIdAndUpdateAsync = async function (id, wallet) {
-  return this.findByIdAndUpdate(id, wallet, {
-    new: true,
-    runValidators: true
-  }).exec();
+WalletSchema.statics.updateAsync = async function (wallet) {
+  return this.findOneAndUpdate({ _id: wallet._id, user: wallet.user }, wallet, { runValidators: true, new: true });
 };
 
 WalletSchema.statics.findByUserAsync = async function (user) {
@@ -39,17 +28,15 @@ WalletSchema.statics.findByIdAndUserAsync = async function (id, user) {
 
 WalletSchema.statics.getAccountBalanceByUserAsync = async function (user) {
   return this.aggregate([
+    { $match: { user: ObjectId(user) } },
     {
-      $match: {
-        user
-      },
       $group: {
-        accountBalance: {
-          $sum: '$value'
-        }
+        _id: null,
+        value: { $sum: '$value' }
       }
-    }
-  ]);
+    },
+    { $limit: 1 }
+  ]).exec();
 };
 
 module.exports = mongoose.model('Wallet', WalletSchema);

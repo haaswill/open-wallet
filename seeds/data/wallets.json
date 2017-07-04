@@ -1,8 +1,65 @@
 [
   {
+    "_id": "595afefc16ca883ef634f9ad",
     "description": "Bank",
-    "value": 567.99,
+    "value": 500.50,
     "color": "#FF0000",
-    "user"
+    "user": "595af9e7a0ded33f30ae0eec"
+  },
+  {
+    "_id": "595aff0616ca883ef634f9ae",
+    "description": "Savings",
+    "value": 5400.00,
+    "color": "#FF0000",
+    "user": "595af9e7a0ded33f30ae0eec"
+  },
+  {
+    "_id": "595aff0e16ca883ef634f9af",
+    "description": "Pocket",
+    "value": 50.75,
+    "color": "#FF0000",
+    "user": "595af9e7a0ded33f30ae0eec"
+  },
+  {
+    "_id": "595aff4e16ca883ef634f9b1",
+    "description": "Bank",
+    "value": 500.50,
+    "color": "#FF0000",
+    "user": "595af9e7a0ded33f30ae0eee"
+  },
+  {
+    "_id": "595aff5e16ca883ef634f9b2",
+    "description": "Savings",
+    "value": 5400.00,
+    "color": "#FF0000",
+    "user": "595af9e7a0ded33f30ae0eee"
+  },
+  {
+    "_id": "595aff6616ca883ef634f9b3",
+    "description": "Pocket",
+    "value": 50.75,
+    "color": "#FF0000",
+    "user": "595af9e7a0ded33f30ae0eee"
+  },
+  {
+    "_id": "595aff6d16ca883ef634f9b4",
+    "description": "Bank",
+    "value": 500.50,
+    "color": "#FF0000",
+    "user": "595af9e7a0ded33f30ae0ef0"
+  },
+  {
+    "_id": "595aff7e16ca883ef634f9b5",
+    "description": "Savings",
+    "value": 5400.00,
+    "color": "#FF0000",
+    "user": "595af9e7a0ded33f30ae0ef0"
+  },
+  {
+    "_id": "595aff8616ca883ef634f9b6",
+    "description": "Pocket",
+    "value": 50.75,
+    "color": "#FF0000",
+    "user": "595af9e7a0ded33f30ae0ef0"
   }
 ]
