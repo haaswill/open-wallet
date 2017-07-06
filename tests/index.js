@@ -28,7 +28,7 @@ const get = (url, done, token = 'token') => {
     .catch(done);
 };
 
-const post = (url, body = new Object(), done, token = 'token') => {
+const post = (url, done, body = new Object(), token = 'token') => {
   return chai.request(serverUrl)
     .post(url)
     .set('Authorization', `Bearer ${token}`)
@@ -36,7 +36,14 @@ const post = (url, body = new Object(), done, token = 'token') => {
     .catch(done);
 };
 
-const put = (url, body = new Object(), done, token = 'token') => {
+const postAuthorization = (url, done, email, password) => {
+  return chai.request(serverUrl)
+    .post(url)
+    .auth(email, password)
+    .catch(done);
+};
+
+const put = (url, done, body = new Object(), token = 'token') => {
   return chai.request(serverUrl)
     .put(url)
     .set('Authorization', `Bearer ${token}`)
@@ -56,6 +63,7 @@ module.exports = {
   initialize,
   get,
   post,
+  postAuthorization,
   put,
   del
 };

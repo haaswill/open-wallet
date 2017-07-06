@@ -1,6 +1,6 @@
 'use strict';
 
-const { initialize } = require('../../tests');
+const { initialize, post, postAuthorization } = require('../../tests');
 const { expect } = require('chai');
 const User = require('./model');
 const seeds = require('../../seeds');
@@ -123,5 +123,54 @@ describe('User', () => {
     //       .catch(done);
     //   });
     // });
+  });
+  describe('Router', () => {
+    describe('POST /api/user/facebook', () => {
+      it('should create or update a user using facebook api', done => {
+        const token = process.env.FACEBOOK_TOKEN;
+        const email = process.env.EMAIL;
+        expect(token).to.exist;
+        expect(email).to.exist;
+        post('/api/user/facebook', done, { token })
+          .then(res => {
+            expect(res).to.have.status(200);
+            expect(res.body.user.email).to.equal(email);
+            done();
+          });
+      });
+    });
+    // describe('POST /api/user/google', () => {
+    //   it('should create or update a user using google api', done => {
+    //     const token = process.env.GOOGLE_TOKEN;
+    //     const email = process.env.EMAIL;
+    //     expect(token).to.exist;
+    //     expect(email).to.exist;
+    //     post('/api/user/google', done, { token })
+    //       .then(res => {
+    //         expect(res).to.have.status(200);
+    //         expect(res.body.user.email).to.equal(email);
+    //         done();
+    //       });
+    //   });
+    // });
+    describe('POST /api/user/signup', () => {
+      it('should sign up using email and password', done => {
+        post('/api/user/signup', done)
+          .then(res => {
+            expect(res).to.have.status(200);
+            done();
+          });
+      });
+    });
+    describe('POST /api/user/signin', () => {
+      it('should sign in using email and password', done => {
+        postAuthorization('/api/user/signin', done, 'johndoe@gmail.com', '1234')
+          .then(res => {
+            expect(res).to.have.status(200);
+            expect(res.body.user.email).to.equal('johndoe@gmail.com');
+            done();
+          });
+      });
+    });
   });
 });

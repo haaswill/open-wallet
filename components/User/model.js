@@ -39,7 +39,7 @@ UserSchema.pre('save', function (callback) {
 
 UserSchema.statics.generateJwt = token => jwt.sign({ token }, process.env.JWTSECRET, { expiresIn: "7d" });
 
-UserSchema.statics.verifyPassword = function (password, cb) {
+UserSchema.methods.verifyPassword = function (password, cb) {
   bcrypt.compare(password, this.password, (err, isMatch) => {
     if (err) {
       return cb(err);

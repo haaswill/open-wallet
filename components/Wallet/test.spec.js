@@ -103,7 +103,7 @@ describe('Wallet', () => {
           color: '#FF00FF',
           user: '595af9e7a0ded33f30ae0ef7'
         };
-        post('/api/wallet', wallet, done)
+        post('/api/wallet', done, wallet)
           .then(res => {
             expect(res).to.have.status(200);
             expect(res.body.user).to.equal('595af9e7a0ded33f30ae0eec');
@@ -119,7 +119,7 @@ describe('Wallet', () => {
           value: 24.75,
           transactionCategory: '595d2562cb0bbf0f6e13063d'
         };
-        post('/api/wallet/expense/595afefc16ca883ef634f9ad', transaction, done)
+        post('/api/wallet/expense/595afefc16ca883ef634f9ad', done, transaction)
           .then(res => {
             expect(res).to.have.status(200);
             expect(res.body.user).to.equal('595af9e7a0ded33f30ae0eec');
@@ -136,7 +136,7 @@ describe('Wallet', () => {
           value: 2000,
           transactionCategory: '595d2562cb0bbf0f6e130640'
         };
-        post('/api/wallet/income/595afefc16ca883ef634f9ad', transaction, done)
+        post('/api/wallet/income/595afefc16ca883ef634f9ad', done, transaction)
           .then(res => {
             expect(res).to.have.status(200);
             expect(res.body.user).to.equal('595af9e7a0ded33f30ae0eec');
@@ -152,7 +152,7 @@ describe('Wallet', () => {
           originWallet: '595afefc16ca883ef634f9ad',
           value: 300,
         };
-        post('/api/wallet/transfer/595aff0616ca883ef634f9ae', transaction, done)
+        post('/api/wallet/transfer/595aff0616ca883ef634f9ae', done, transaction)
           .then(res => {
             expect(res).to.have.status(200);
             expect(res.body.user).to.equal('595af9e7a0ded33f30ae0eec');
@@ -166,7 +166,7 @@ describe('Wallet', () => {
           _id: '595cfbd4c91548076f8a3363',
           color: '#303030'
         };
-        put('/api/wallet', wallet, done)
+        put('/api/wallet', done, wallet)
           .then(res => {
             expect(res).to.have.status(200);
             expect(res.body.user).to.equal('595af9e7a0ded33f30ae0eec');

@@ -3,7 +3,7 @@ const BearerStrategy = require('passport-http-bearer').Strategy;
 const BasicStrategy = require('passport-http').BasicStrategy;
 const User = require('../components/User/model');
 
-passport.use(new BasicStrategy(async (email, password, done) => {
+passport.use(new BasicStrategy((email, password, done) => {
   User.findOne({ email }, (err, user) => {
     if (err) {
       return done(err);
@@ -11,7 +11,7 @@ passport.use(new BasicStrategy(async (email, password, done) => {
     if (!user) {
       return done(null, false);
     }
-    user.verifyPassword(password, function (err, isMatch) {
+    user.verifyPassword(password, (err, isMatch) => {
       if (err) {
         return done(err);
       }

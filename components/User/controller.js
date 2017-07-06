@@ -27,7 +27,7 @@ exports.createOrUpdateWithGoogle = async (req, res) => {
 
 exports.getUserAccountBalance = async (req, res) => {
   let accountBalance = 0;
-  const user = await User.findOneByEmailAsync(req.body.email);
+  const user = await User.findOneByEmailAsync(req.user.email);
   const wallets = await Wallet.findByUserAsync(user._id);
   if (wallets.length) {
     accountBalance = await Wallet.getAccountBalanceByUserAsync(user._id);
