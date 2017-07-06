@@ -1,0 +1,30 @@
+[
+  {
+    "_id": "595d2562cb0bbf0f6e13063d",
+    "description": "Food",
+    "type": "Expense",
+    "color": "#00FF00",
+    "user": "595af9e7a0ded33f30ae0eec"
+  },
+  {
+    "_id": "595d2562cb0bbf0f6e13063e",
+    "description": "Shopping",
+    "type": "Expense",
+    "color": "#fb30cc",
+    "user": "595af9e7a0ded33f30ae0eec"
+  },
+  {
+    "_id": "595d2562cb0bbf0f6e13063f",
+    "description": "Health",
+    "type": "Expense",
+    "color": "#aa3300",
+    "user": "595af9e7a0ded33f30ae0eec"
+  },
+  {
+    "_id": "595d2562cb0bbf0f6e130640",
+    "description": "Salary",
+    "type": "Income",
+    "color": "#bb770a",
+    "user": "595af9e7a0ded33f30ae0eec"
+  }
+]

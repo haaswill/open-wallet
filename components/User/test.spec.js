@@ -1,9 +1,12 @@
 'use strict';
 
+const { initialize } = require('../../tests');
 const { expect } = require('chai');
 const User = require('./model');
 const seeds = require('../../seeds');
-require('../../tests');
+
+// Initialize test's index file
+initialize();
 
 before(done => {
   User.remove()

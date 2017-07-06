@@ -1,3 +1,5 @@
+'use strict';
+
 const { mongoose } = require('../../config/database');
 
 const TransactionCategorySchema = new mongoose.Schema({
@@ -6,14 +8,6 @@ const TransactionCategorySchema = new mongoose.Schema({
   color: { type: String, trim: true, minlength: 4, maxlength: 7, required: 'color must be informed.' },
   user: { type: mongoose.Schema.ObjectId, ref: 'User', required: 'user is required' }
 });
-
-function autopopulate(next) {
-  this.populate('user');
-  next();
-}
-
-TransactionCategorySchema.pre('find', autopopulate);
-TransactionCategorySchema.pre('findById', autopopulate);
 
 TransactionCategorySchema.statics.createAsync = async function (transactionCategory) {
   return (new this(transactionCategory)).save();

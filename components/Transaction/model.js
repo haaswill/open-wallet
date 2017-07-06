@@ -1,3 +1,5 @@
+'use strict';
+
 const { mongoose } = require('../../config/database');
 
 const TransactionSchema = new mongoose.Schema({
@@ -6,21 +8,10 @@ const TransactionSchema = new mongoose.Schema({
   type: { type: String, enum: ['Income', 'Expense', 'Transfer'], required: 'type is required.' },
   date: { type: Date, required: 'date is required.', default: Date.now },
   targetWallet: { type: mongoose.Schema.ObjectId, ref: 'Wallet', required: 'wallet is required' },
-  originWallet: { type: mongoose.Schema.ObjectId, ref: 'Wallet', required: 'wallet is required' },
-  transactionCategory: { type: mongoose.Schema.ObjectId, ref: 'TransactionCategory', required: 'transactionCategory is required' },
+  originWallet: { type: mongoose.Schema.ObjectId, ref: 'Wallet' },
+  transactionCategory: { type: mongoose.Schema.ObjectId, ref: 'TransactionCategory' },
   user: { type: mongoose.Schema.ObjectId, ref: 'User', required: 'user is required' }
 });
-
-function autopopulate(next) {
-  this.populate('wallet');
-  this.populate('transactionCategory');
-  this.populate('user');
-  next();
-}
-
-TransactionSchema.pre('find', autopopulate);
-TransactionSchema.pre('findOne', autopopulate);
-TransactionSchema.pre('findById', autopopulate);
 
 TransactionSchema.statics.createAsync = async function (transaction) {
   return (new this(transaction)).save();

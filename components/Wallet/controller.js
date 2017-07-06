@@ -1,3 +1,5 @@
+'use strict';
+
 const Wallet = require('./model');
 const Transaction = require('../Transaction/model');
 
@@ -8,7 +10,8 @@ exports.create = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  const wallet = await Wallet.updateAsync(req.params.id, req.body);
+  req.body.user = req.user._id;
+  const wallet = await Wallet.updateAsync(req.body);
   res.json(wallet);
 };
 
@@ -28,10 +31,13 @@ exports.getById = async (req, res) => {
 };
 
 exports.income = async (req, res) => {
+  //validate if type is the same as transaction category type
   req.body.type = 'Income';
   req.body.user = req.user._id;
+  req.body.date = Date.now();
+  req.body.targetWallet = req.params.id;
   const transactionPromise = Transaction.createAsync(req.body);
-  const walletPromise = Wallet.findByIdAndUserAsync(req.body.targetWallet, req.user._id);
+  const walletPromise = Wallet.findByIdAndUserAsync(req.body.targetWallet, req.body.user);
   const [transaction, wallet] = await Promise.all([transactionPromise, walletPromise]);
   wallet.value += Number.parseFloat(req.body.value);
   await wallet.save();
@@ -39,10 +45,13 @@ exports.income = async (req, res) => {
 };
 
 exports.expense = async (req, res) => {
+  //validate if type is the same as transaction category type
   req.body.type = 'Expense';
   req.body.user = req.user._id;
+  req.body.date = Date.now();
+  req.body.targetWallet = req.params.id;
   const transactionPromise = Transaction.createAsync(req.body);
-  const walletPromise = Wallet.findByIdAndUserAsync(req.body.targetWallet, req.user._id);
+  const walletPromise = Wallet.findByIdAndUserAsync(req.body.targetWallet, req.body.user);
   const [transaction, wallet] = await Promise.all([transactionPromise, walletPromise]);
   wallet.value -= Number.parseFloat(req.body.value);
   await wallet.save();
@@ -52,12 +61,15 @@ exports.expense = async (req, res) => {
 exports.transfer = async (req, res) => {
   req.body.type = 'Transfer';
   req.body.user = req.user._id;
-  await Transaction.createAsync(req.body);
-  const targetWalletPromise = Wallet.findByIdAndUserAsync(req.body.targetWallet, req.user._id);
-  const originWalletPromise = Wallet.findByIdAndUserAsync(req.body.originWallet, req.user._id);
-  const [targetWallet, originWallet] = await Promise.all([targetWalletPromise, originWalletPromise]);
+  req.body.date = Date.now();
+  req.body.targetWallet = req.params.id;
+  req.body.description = 'Transfer';
+  const transactionPromise = Transaction.createAsync(req.body);
+  const targetWalletPromise = Wallet.findByIdAndUserAsync(req.body.targetWallet, req.body.user);
+  const originWalletPromise = Wallet.findByIdAndUserAsync(req.body.originWallet, req.body.user);
+  const [transaction, targetWallet, originWallet] = await Promise.all([transactionPromise, targetWalletPromise, originWalletPromise]);
   targetWallet.value += Number.parseFloat(req.body.value);
   originWallet.value -= Number.parseFloat(req.body.value);
   await Promise.all([targetWallet.save(), originWallet.save()]);
-  res.json({ message: 'Transaction saved.' });
+  res.json(transaction);
 };

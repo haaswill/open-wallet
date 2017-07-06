@@ -29,6 +29,7 @@ exports.developmentErrors = (err, req, res, next) => {
   const errorDetails = {
     message: err.message,
     status: err.status,
+    errors: err.errors || '',
     stackHighlighted: err.stack ? err.stack : err
   };
   res.status(err.status || 500);

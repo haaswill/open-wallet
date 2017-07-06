@@ -2,7 +2,7 @@
   {
     "_id": "595af9e7a0ded33f30ae0eec",
     "email": "johndoe@gmail.com",
-    "token": null,
+    "token": "token",
     "password": "1234",
     "name": {
       "first": "John",

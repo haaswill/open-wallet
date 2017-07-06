@@ -1,0 +1,38 @@
+[
+  {
+    "_id": "595d2562cb0bbf0f6e130639",
+    "description": "Pharmacy",
+    "value": 40,
+    "type": "Expense",
+    "targetWallet": "595aff0e16ca883ef634f9af",
+    "transactionCategory": "595d2562cb0bbf0f6e13063f",
+    "user": "595af9e7a0ded33f30ae0ef7"
+  },
+  {
+    "_id": "595d2562cb0bbf0f6e13063a",
+    "description": "Mall",
+    "value": 230.60,
+    "type": "Expense",
+    "targetWallet": "595aff0e16ca883ef634f9af",
+    "transactionCategory": "595d2562cb0bbf0f6e13063e",
+    "user": "595af9e7a0ded33f30ae0ef7"
+  },
+  {
+    "_id": "595d2562cb0bbf0f6e13063b",
+    "description": "Company",
+    "value": 2000,
+    "type": "Income",
+    "targetWallet": "595aff0e16ca883ef634f9af",
+    "transactionCategory": "595d2562cb0bbf0f6e130640",
+    "user": "595af9e7a0ded33f30ae0ef7"
+  },
+  {
+    "_id": "595d2562cb0bbf0f6e13063c",
+    "description": "Savings",
+    "value": 100,
+    "type": "Transfer",
+    "targetWallet": "595aff0616ca883ef634f9ae",
+    "originWallet": "595aff0e16ca883ef634f9af",
+    "user": "595af9e7a0ded33f30ae0ef7"
+  }
+]
