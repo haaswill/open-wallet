@@ -6,7 +6,7 @@
     "type": "Expense",
     "targetWallet": "595aff0e16ca883ef634f9af",
     "transactionCategory": "595d2562cb0bbf0f6e13063f",
-    "user": "595af9e7a0ded33f30ae0ef7"
+    "user": "595af9e7a0ded33f30ae0eec"
   },
   {
     "_id": "595d2562cb0bbf0f6e13063a",
@@ -15,7 +15,7 @@
     "type": "Expense",
     "targetWallet": "595aff0e16ca883ef634f9af",
     "transactionCategory": "595d2562cb0bbf0f6e13063e",
-    "user": "595af9e7a0ded33f30ae0ef7"
+    "user": "595af9e7a0ded33f30ae0eec"
   },
   {
     "_id": "595d2562cb0bbf0f6e13063b",
@@ -24,7 +24,7 @@
     "type": "Income",
     "targetWallet": "595aff0e16ca883ef634f9af",
     "transactionCategory": "595d2562cb0bbf0f6e130640",
-    "user": "595af9e7a0ded33f30ae0ef7"
+    "user": "595af9e7a0ded33f30ae0eec"
   },
   {
     "_id": "595d2562cb0bbf0f6e13063c",
@@ -33,6 +33,6 @@
     "type": "Transfer",
     "targetWallet": "595aff0616ca883ef634f9ae",
     "originWallet": "595aff0e16ca883ef634f9af",
-    "user": "595af9e7a0ded33f30ae0ef7"
+    "user": "595af9e7a0ded33f30ae0eec"
   }
 ]

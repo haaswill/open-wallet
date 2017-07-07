@@ -17,16 +17,28 @@ TransactionSchema.statics.createAsync = async function (transaction) {
   return (new this(transaction)).save();
 };
 
-TransactionSchema.statics.findByUser = async function (user) {
+TransactionSchema.statics.updateAsync = async function (transaction) {
+  return this.findOneAndUpdate({ _id: transaction._id, user: transaction.user }, transaction, { runValidators: true, new: true });
+};
+
+TransactionSchema.statics.findByIdAndUserAsync = async function (_id, user) {
+  return this.findOne({ _id, user });
+};
+
+TransactionSchema.statics.findByUserAsync = async function (user) {
   return this.find({ user });
 };
 
-TransactionSchema.statics.findByWallet = async function (wallet) {
-  return this.find({ wallet });
+TransactionSchema.statics.findByTargetWalletAndUserAsync = async function (targetWallet, user) {
+  return this.find({ targetWallet, user });
 };
 
-TransactionSchema.statics.findByTransactionCategory = async function (transactionCategory) {
-  return this.find({ transactionCategory });
+TransactionSchema.statics.findByTransactionCategoryAndUserAsync = async function (transactionCategory, user) {
+  return this.find({ transactionCategory, user });
 };
+
+TransactionSchema.statics.findByIdAndUserAndRemoveAsync = async function (_id, user) {
+  return this.findOneAndRemove({ _id, user });
+}
 
 module.exports = mongoose.model('Transaction', TransactionSchema);

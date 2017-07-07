@@ -22,9 +22,13 @@ WalletSchema.statics.findByUserAsync = async function (user) {
   return this.find({ user });
 };
 
-WalletSchema.statics.findByIdAndUserAsync = async function (id, user) {
-  return this.findOne({ _id: id, user });
+WalletSchema.statics.findByIdAndUserAsync = async function (_id, user) {
+  return this.findOne({ _id, user });
 };
+
+WalletSchema.statics.findByIdAndUserAndRemoveAsync = async function (_id, user) {
+  return this.findOneAndRemove({ _id, user });
+}
 
 WalletSchema.statics.getAccountBalanceByUserAsync = async function (user) {
   return this.aggregate([

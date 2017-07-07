@@ -10,13 +10,14 @@ exports.create = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
+  req.body._id = req.params.id;
   req.body.user = req.user._id;
   const wallet = await Wallet.updateAsync(req.body);
   res.json(wallet);
 };
 
 exports.delete = async (req, res) => {
-  await Wallet.findByIdAndRemove(req.params.id);
+  await Wallet.findByIdAndUserAndRemoveAsync(req.params.id, req.user._id);
   res.json({ message: 'Wallet deleted.' });
 };
 

@@ -21,6 +21,13 @@
     "user": "595af9e7a0ded33f30ae0eec"
   },
   {
+    "_id": "595efecf1e2d5c15f18e33d7",
+    "description": "Bank 2",
+    "value": 0.50,
+    "color": "#000000",
+    "user": "595af9e7a0ded33f30ae0eec"
+  },
+  {
     "_id": "595aff4e16ca883ef634f9b1",
     "description": "Bank",
     "value": 500.50,

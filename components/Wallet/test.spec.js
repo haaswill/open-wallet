@@ -41,10 +41,10 @@ describe('Wallet', () => {
       });
     });
     describe('#findByUserAsync()', () => {
-      it('should all wallets linked to user', done => {
+      it('should find all wallets by user', done => {
         Wallet.findByUserAsync('595af9e7a0ded33f30ae0eec')
           .then(wallets => {
-            expect(wallets.length).to.equal(3);
+            expect(wallets.length).to.equal(4);
             done();
           })
           .catch(done);
@@ -64,10 +64,22 @@ describe('Wallet', () => {
       it('should get an account balance', done => {
         Wallet.getAccountBalanceByUserAsync('595af9e7a0ded33f30ae0eec')
           .then(accountBalance => {
-            expect(accountBalance[0].value).to.equal(5951.25);
+            expect(accountBalance[0].value).to.equal(5951.75);
             done();
           })
           .catch(done);
+      });
+    });
+    describe('#findByIdAndUserAndRemoveAsync()', () => {
+      it('should delete a wallet', () => {
+        Wallet.findByIdAndUserAndRemoveAsync('595efecf1e2d5c15f18e33d7', '595af9e7a0ded33f30ae0eec');
+      });
+      it('should not find the wallet', done => {
+        Wallet.findByIdAndUserAsync('595efecf1e2d5c15f18e33d7', '595af9e7a0ded33f30ae0eec')
+          .then(res => {
+            expect(res).to.not.exist;
+            done();
+          });
       });
     });
   });
@@ -100,8 +112,7 @@ describe('Wallet', () => {
           _id: '595cfbd4c91548076f8a3363',
           description: 'Savings',
           value: 666,
-          color: '#FF00FF',
-          user: '595af9e7a0ded33f30ae0ef7'
+          color: '#FF00FF'
         };
         post('/api/wallet', done, wallet)
           .then(res => {
@@ -160,13 +171,12 @@ describe('Wallet', () => {
           });
       });
     });
-    describe('PUT /api/wallet', () => {
+    describe('PUT /api/wallet/:id', () => {
       it('should update a wallet', done => {
         const wallet = {
-          _id: '595cfbd4c91548076f8a3363',
           color: '#303030'
         };
-        put('/api/wallet', done, wallet)
+        put('/api/wallet/595cfbd4c91548076f8a3363', done, wallet)
           .then(res => {
             expect(res).to.have.status(200);
             expect(res.body.user).to.equal('595af9e7a0ded33f30ae0eec');
@@ -181,6 +191,13 @@ describe('Wallet', () => {
           .then(res => {
             expect(res).to.have.status(200);
             expect(res.body.message).to.equal('Wallet deleted.');
+            done();
+          });
+      });
+      it('should not find the wallet', done => {
+        Wallet.findByIdAndUserAsync('595cfbd4c91548076f8a3363', '595af9e7a0ded33f30ae0eec')
+          .then(res => {
+            expect(res).to.not.exist;
             done();
           });
       });
