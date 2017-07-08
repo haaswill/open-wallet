@@ -1,3 +1,5 @@
+'use strict';
+
 const TransactionCategory = require('./model');
 
 exports.create = async (req, res) => {
@@ -5,19 +7,25 @@ exports.create = async (req, res) => {
   const transactionCategory = await TransactionCategory.createAsync(req.body);
   res.json(transactionCategory);
 };
+
 exports.update = async (req, res) => {
-  const transactionCategory = await TransactionCategory.findByIdAndUpdateAsync(req.params.id, req.body);
+  req.body._id = req.params.id;
+  req.body.user = req.user._id;
+  const transactionCategory = await TransactionCategory.updateAsync(req.body);
   res.json(transactionCategory);
 };
-exports.delete = async (req, res) => {
-  await TransactionCategory.findByIdAndRemove(req.params.id);
-  res.json({ message: 'Transaction category deleted.' });
-};
-exports.getByUser = async (req, res) => {
-  const transactionCategories = await TransactionCategory.findfindByUser(req.user._id);
-  res.json(transactionCategories);
-};
+
 exports.getById = async (req, res) => {
-  const transactionCategories = await TransactionCategory.findById(req.params.id);
+  const transactionCategories = await TransactionCategory.findByIdAndUserAsync(req.params.id, req.user._id);
   res.json(transactionCategories);
+};
+
+exports.getByUser = async (req, res) => {
+  const transactionCategories = await TransactionCategory.findByUserAsync(req.user._id);
+  res.json(transactionCategories);
+};
+
+exports.delete = async (req, res) => {
+  await TransactionCategory.findByIdAndUserAndRemoveAsync(req.params.id, req.user._id);
+  res.json({ message: 'Transaction category deleted.' });
 };

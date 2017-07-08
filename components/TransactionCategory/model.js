@@ -13,15 +13,20 @@ TransactionCategorySchema.statics.createAsync = async function (transactionCateg
   return (new this(transactionCategory)).save();
 };
 
-TransactionCategorySchema.statics.findByIdAndUpdateAsync = async function (id, transactionCategory) {
-  return this.findByIdAndUpdate(id, transactionCategory, {
-    new: true,
-    runValidators: true
-  }).exec();
+TransactionCategorySchema.statics.updateAsync = async function (transactionCategory) {
+  return this.findOneAndUpdate({ _id: transactionCategory._id, user: transactionCategory.user }, transactionCategory, { runValidators: true, new: true });
 };
 
-TransactionCategorySchema.statics.findByUser = async function (user) {
+TransactionCategorySchema.statics.findByIdAndUserAsync = async function (_id, user) {
+  return this.findOne({ _id, user });
+};
+
+TransactionCategorySchema.statics.findByUserAsync = async function (user) {
   return this.find({ user });
+};
+
+TransactionCategorySchema.statics.findByIdAndUserAndRemoveAsync = async function (_id, user) {
+  return this.findOneAndRemove({ _id, user });
 };
 
 module.exports = mongoose.model('TransactionCategory', TransactionCategorySchema);

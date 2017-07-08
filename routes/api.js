@@ -18,6 +18,6 @@ transaction(transactionRouter);
 module.exports = (router) => {
   router.use('/user', userRouter);
   router.use('/wallet', authentication.isAuthenticated, walletRouter);
-  router.use('/category', authentication.isAuthenticated, transactionCategoryRouter);
+  router.use('/transactioncategory', authentication.isAuthenticated, transactionCategoryRouter);
   router.use('/transaction', authentication.isAuthenticated, transactionRouter);
 }

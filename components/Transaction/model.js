@@ -39,6 +39,6 @@ TransactionSchema.statics.findByTransactionCategoryAndUserAsync = async function
 
 TransactionSchema.statics.findByIdAndUserAndRemoveAsync = async function (_id, user) {
   return this.findOneAndRemove({ _id, user });
-}
+};
 
 module.exports = mongoose.model('Transaction', TransactionSchema);
