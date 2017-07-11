@@ -63,8 +63,9 @@ describe('Wallet', () => {
     describe('#getAccountBalanceByUserAsync()', () => {
       it('should get an account balance', done => {
         Wallet.getAccountBalanceByUserAsync('595af9e7a0ded33f30ae0eec')
-          .then(accountBalance => {
-            expect(accountBalance[0].value).to.equal(5951.75);
+          .then(res => {
+            const [{ value: accountBalance }] = res;
+            expect(accountBalance).to.equal(5951.75);
             done();
           })
           .catch(done);

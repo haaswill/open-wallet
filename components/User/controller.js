@@ -9,7 +9,7 @@ exports.createOrUpdateWithFacebook = async (req, res) => {
   const user = await User.createOrUpdateAsync(userData);
   const wallets = await Wallet.findByUserAsync(user._id);
   if (wallets.length) {
-    accountBalance = await Wallet.getAccountBalanceByUserAsync(user._id);
+    [{ value: accountBalance }] = await Wallet.getAccountBalanceByUserAsync(user._id);
   }
   res.json({ user, wallets, accountBalance });
 };
@@ -20,7 +20,7 @@ exports.createOrUpdateWithGoogle = async (req, res) => {
   const user = await User.createOrUpdateAsync(userData);
   const wallets = await Wallet.findByUserAsync(user._id);
   if (wallets.length) {
-    accountBalance = await Wallet.getAccountBalanceByUserAsync(user._id);
+    [{ value: accountBalance }] = await Wallet.getAccountBalanceByUserAsync(user._id);
   }
   res.json({ user, wallets, accountBalance });
 };
@@ -30,7 +30,7 @@ exports.getUserAccountBalance = async (req, res) => {
   const user = await User.findOneByEmailAsync(req.user.email);
   const wallets = await Wallet.findByUserAsync(user._id);
   if (wallets.length) {
-    accountBalance = await Wallet.getAccountBalanceByUserAsync(user._id);
+    [{ value: accountBalance }] = await Wallet.getAccountBalanceByUserAsync(user._id);
   }
   res.json({ user, wallets, accountBalance });
 };
