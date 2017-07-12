@@ -107,6 +107,17 @@ describe('Wallet', () => {
           });
       });
     });
+    describe('GET /api/wallet/accountbalance', () => {
+      it('should get the account balance', done => {
+        get('/api/wallet/accountbalance', done)
+          .then(res => {
+            expect(res).to.have.status(200);
+            expect(res.body.wallets).to.be.a('array');
+            expect(res.body.accountBalance).to.equal(5951.25);
+            done();
+          });
+      });
+    });
     describe('POST /api/wallet', () => {
       it('should post a wallet', done => {
         const wallet = {
