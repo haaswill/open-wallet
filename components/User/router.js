@@ -8,5 +8,5 @@ module.exports = function (router) {
   router.post('/facebook', catchErrors(user.createOrUpdateWithFacebook));
   router.post('/google', catchErrors(user.createOrUpdateWithGoogle));
   router.post('/signup', catchErrors(user.signUp));
-  router.post('/signin', authentication.isAuthenticatedBasic, catchErrors(user.getUserAccountBalance));
+  router.post('/signin', authentication.isAuthenticatedBasic, catchErrors(user.getUser));
 };

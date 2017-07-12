@@ -31,6 +31,13 @@ exports.getById = async (req, res) => {
   res.json(wallet);
 };
 
+exports.getAccountBalance = async (req, res) => {
+  const walletsPromise = Wallet.findByUserAsync(req.user._id);
+  const accountBalancePromise = Wallet.getAccountBalanceByUserAsync(req.user._id);
+  const [wallets, [{ value: accountBalance }]] = await Promise.all([walletsPromise, accountBalancePromise]);
+  res.json({ wallets, accountBalance });
+};
+
 exports.income = async (req, res) => {
   //validate if type is the same as transaction category type
   req.body.type = 'Income';
