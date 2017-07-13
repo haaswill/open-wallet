@@ -31,7 +31,9 @@ const handleConnectionEvents = () => {
 
 const connect = url => {
   handleConnectionEvents();
-  return mongoose.connect(url);
+  return mongoose.connect(url, {
+    useMongoClient: true
+  });
 };
 
 initialize();

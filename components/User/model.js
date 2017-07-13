@@ -12,10 +12,30 @@ const NameSchema = new mongoose.Schema({
 });
 
 const UserSchema = new mongoose.Schema({
-  email: { type: String, trim: true, unique: true, lowercase: true, maxlength: 256, validate: [validator.isEmail, 'invalid email address'], required: 'email is required.' },
-  token: { type: String, trim: true },
-  password: { type: String, trim: true },
-  name: { type: NameSchema, required: 'name is requdired.' }
+  email: {
+    type: String,
+    trim: true,
+    unique: true,
+    lowercase: true,
+    maxlength: 256,
+    validate: {
+      validator: value => validator.isEmail(value),
+      message: 'invalid email address'
+    },
+    required: 'email is required.'
+  },
+  token: {
+    type: String,
+    trim: true
+  },
+  password: {
+    type: String,
+    trim: true
+  },
+  name: {
+    type: NameSchema,
+    required: 'name is requdired.'
+  }
 });
 
 UserSchema.pre('save', function (callback) {

@@ -4,10 +4,35 @@ const { mongoose } = require('../../config/database');
 const ObjectId = mongoose.Types.ObjectId;
 
 const WalletSchema = new mongoose.Schema({
-  description: { type: String, trim: true, maxlength: 20, required: 'description is required.' },
-  value: { type: Number, min: 0, required: 'value is required.' },
-  color: { type: String, trim: true, minlength: 4, maxlength: 7, required: 'color is required.' },
-  user: { type: mongoose.Schema.ObjectId, ref: 'User', required: 'user is required' }
+  description: {
+    type: String,
+    trim: true,
+    maxlength: 20,
+    required: 'description is required.'
+  },
+  value: {
+    type: Number,
+    min: 0,
+    required: 'value is required.'
+  },
+  color: {
+    type: String,
+    trim: true,
+    minlength: 4,
+    maxlength: 7,
+    required: 'color is required.'
+  },
+  icon: {
+    type: String,
+    trim: true,
+    maxlength: 20,
+    required: 'icon is required.'
+  },
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: 'user is required'
+  }
 });
 
 WalletSchema.statics.createAsync = async function (wallet) {

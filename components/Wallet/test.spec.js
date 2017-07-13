@@ -23,6 +23,7 @@ describe('Wallet', () => {
           description: 'Bank',
           value: 500.50,
           color: '#0000FF',
+          icon: 'bank',
           user: '595af9e7a0ded33f30ae0ef7'
         };
         Wallet.createAsync(newWallet);
@@ -123,6 +124,7 @@ describe('Wallet', () => {
         const wallet = {
           _id: '595cfbd4c91548076f8a3363',
           description: 'Savings',
+          icon: 'currency-usd',
           value: 666,
           color: '#FF00FF'
         };

@@ -4,6 +4,7 @@
     "description": "Bank",
     "value": 500.50,
     "color": "#FF0000",
+    "icon": "bank",
     "user": "595af9e7a0ded33f30ae0eec"
   },
   {
@@ -11,6 +12,7 @@
     "description": "Savings",
     "value": 5400.00,
     "color": "#FF0000",
+    "icon": "currency-usd",
     "user": "595af9e7a0ded33f30ae0eec"
   },
   {
@@ -18,6 +20,7 @@
     "description": "Pocket",
     "value": 50.75,
     "color": "#FF0000",
+    "icon": "wallet",
     "user": "595af9e7a0ded33f30ae0eec"
   },
   {
@@ -25,6 +28,7 @@
     "description": "Bank 2",
     "value": 0.50,
     "color": "#000000",
+    "icon": "bank",
     "user": "595af9e7a0ded33f30ae0eec"
   },
   {
@@ -32,6 +36,7 @@
     "description": "Bank",
     "value": 500.50,
     "color": "#FF0000",
+    "icon": "bank",
     "user": "595af9e7a0ded33f30ae0eee"
   },
   {
@@ -39,6 +44,7 @@
     "description": "Savings",
     "value": 5400.00,
     "color": "#FF0000",
+    "icon": "currency-usd",
     "user": "595af9e7a0ded33f30ae0eee"
   },
   {
@@ -46,6 +52,7 @@
     "description": "Pocket",
     "value": 50.75,
     "color": "#FF0000",
+    "icon": "wallet",
     "user": "595af9e7a0ded33f30ae0eee"
   },
   {
@@ -53,6 +60,7 @@
     "description": "Bank",
     "value": 500.50,
     "color": "#FF0000",
+    "icon": "bank",
     "user": "595af9e7a0ded33f30ae0ef0"
   },
   {
@@ -60,6 +68,7 @@
     "description": "Savings",
     "value": 5400.00,
     "color": "#FF0000",
+    "icon": "currency-usd",
     "user": "595af9e7a0ded33f30ae0ef0"
   },
   {
@@ -67,6 +76,7 @@
     "description": "Pocket",
     "value": 50.75,
     "color": "#FF0000",
+    "icon": "wallet",
     "user": "595af9e7a0ded33f30ae0ef0"
   }
 ]
