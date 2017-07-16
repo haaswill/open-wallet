@@ -123,6 +123,58 @@ describe('Transaction', () => {
           .catch(done);
       });
     });
+    describe('#findByTypeAndUserAsync()', () => {
+      it('should find all expenses by user', done => {
+        Transaction.findByTypeAndUserAsync('Expense', '595af9e7a0ded33f30ae0eec')
+          .then(transactions => {
+            expect(transactions.length).to.equal(3);
+            done();
+          })
+          .catch(done);
+      });
+      it('should find all incomes by user', done => {
+        Transaction.findByTypeAndUserAsync('Income', '595af9e7a0ded33f30ae0eec')
+          .then(transactions => {
+            expect(transactions.length).to.equal(2);
+            done();
+          })
+          .catch(done);
+      });
+      it('should find all tranfers by user', done => {
+        Transaction.findByTypeAndUserAsync('Transfer', '595af9e7a0ded33f30ae0eec')
+          .then(transactions => {
+            expect(transactions.length).to.equal(2);
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('#findByTypeAndTargetWalletAndUserAsync()', () => {
+      it('should find all expenses by wallet and user', done => {
+        Transaction.findByTypeAndTargetWalletAndUserAsync('Expense', '595aff0e16ca883ef634f9af', '595af9e7a0ded33f30ae0eec')
+          .then(transactions => {
+            expect(transactions.length).to.equal(3);
+            done();
+          })
+          .catch(done);
+      });
+      it('should find all incomes by wallet and user', done => {
+        Transaction.findByTypeAndTargetWalletAndUserAsync('Income', '595aff0e16ca883ef634f9af', '595af9e7a0ded33f30ae0eec')
+          .then(transactions => {
+            expect(transactions.length).to.equal(2);
+            done();
+          })
+          .catch(done);
+      });
+      it('should find all transfers by wallet and user', done => {
+        Transaction.findByTypeAndTargetWalletAndUserAsync('Transfer', '595aff0616ca883ef634f9ae', '595af9e7a0ded33f30ae0eec')
+          .then(transactions => {
+            expect(transactions.length).to.equal(2);
+            done();
+          })
+          .catch(done);
+      });
+    });
     describe('#findByIdAndUserAndRemoveAsync()', () => {
       it('should delete a transaction', () => {
         Transaction.findByIdAndUserAndRemoveAsync('595d33b164ec0f0ddf15dd79', '595af9e7a0ded33f30ae0eec');
@@ -144,6 +196,72 @@ describe('Transaction', () => {
             expect(res).to.have.status(200);
             expect(res.body).to.be.a('array');
             expect(res.body.length).to.equal(7);
+            done();
+          });
+      });
+    });
+    describe('GET /api/transaction/expenses', () => {
+      it('should get expenses by user', done => {
+        get('/api/transaction/expenses', done)
+          .then(res => {
+            expect(res).to.have.status(200);
+            expect(res.body).to.be.a('array');
+            expect(res.body.length).to.equal(3);
+            done();
+          });
+      });
+    });
+    describe('GET /api/transaction/incomes', () => {
+      it('should get incomes by user', done => {
+        get('/api/transaction/incomes', done)
+          .then(res => {
+            expect(res).to.have.status(200);
+            expect(res.body).to.be.a('array');
+            expect(res.body.length).to.equal(2);
+            done();
+          });
+      });
+    });
+    describe('GET /api/transaction/transfers', () => {
+      it('should get transfers by user', done => {
+        get('/api/transaction/transfers', done)
+          .then(res => {
+            expect(res).to.have.status(200);
+            expect(res.body).to.be.a('array');
+            expect(res.body.length).to.equal(2);
+            done();
+          });
+      });
+    });
+    describe('GET /api/transaction/wallet/:id/expenses', () => {
+      it('should get expenses by wallet and user', done => {
+        get('/api/transaction/wallet/595aff0e16ca883ef634f9af/expenses', done)
+          .then(res => {
+            expect(res).to.have.status(200);
+            expect(res.body).to.be.a('array');
+            expect(res.body.length).to.equal(3);
+            done();
+          });
+      });
+    });
+    describe('GET /api/transaction/wallet/:id/incomes', () => {
+      it('should get incomes by wallet and user', done => {
+        get('/api/transaction/wallet/595aff0e16ca883ef634f9af/incomes', done)
+          .then(res => {
+            expect(res).to.have.status(200);
+            expect(res.body).to.be.a('array');
+            expect(res.body.length).to.equal(2);
+            done();
+          });
+      });
+    });
+    describe('GET /api/transaction/wallet/:id/transfers', () => {
+      it('should get transfers by wallet and user', done => {
+        get('/api/transaction/wallet/595aff0616ca883ef634f9ae/transfers', done)
+          .then(res => {
+            expect(res).to.have.status(200);
+            expect(res.body).to.be.a('array');
+            expect(res.body.length).to.equal(2);
             done();
           });
       });

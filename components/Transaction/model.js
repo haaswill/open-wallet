@@ -69,6 +69,14 @@ TransactionSchema.statics.findByTransactionCategoryAndUserAsync = async function
   return this.find({ transactionCategory, user });
 };
 
+TransactionSchema.statics.findByTypeAndUserAsync = async function (type, user) {
+  return this.find({ type, user });
+};
+
+TransactionSchema.statics.findByTypeAndTargetWalletAndUserAsync = async function (type, targetWallet, user) {
+  return this.find({ type, targetWallet, user });
+};
+
 TransactionSchema.statics.findByIdAndUserAndRemoveAsync = async function (_id, user) {
   return this.findOneAndRemove({ _id, user });
 };
