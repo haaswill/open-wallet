@@ -4,6 +4,7 @@
     "description": "Food",
     "type": "Expense",
     "color": "#00FF00",
+    "icon": "food",
     "user": "595af9e7a0ded33f30ae0eec"
   },
   {
@@ -11,6 +12,7 @@
     "description": "Shopping",
     "type": "Expense",
     "color": "#fb30cc",
+    "icon": "basket",
     "user": "595af9e7a0ded33f30ae0eec"
   },
   {
@@ -18,6 +20,7 @@
     "description": "Health",
     "type": "Expense",
     "color": "#aa3300",
+    "icon": "hospital",
     "user": "595af9e7a0ded33f30ae0eec"
   },
   {
@@ -25,6 +28,7 @@
     "description": "Salary",
     "type": "Income",
     "color": "#bb770a",
+    "icon": "currency-usd",
     "user": "595af9e7a0ded33f30ae0eec"
   }
 ]

@@ -23,6 +23,7 @@ describe('Transaction Category', () => {
           description: 'Sales',
           type: 'Income',
           color: '#7742f4',
+          icon: 'currency-usd',
           user: '595af9e7a0ded33f30ae0eec'
         };
         TransactionCategory.createAsync(transactionCategory);
@@ -33,6 +34,7 @@ describe('Transaction Category', () => {
           description: 'Services',
           type: 'Expense',
           color: '#a5915c',
+          icon: 'worker',
           user: '595af9e7a0ded33f30ae0eec'
         };
         TransactionCategory.createAsync(transactionCategory);
@@ -119,6 +121,7 @@ describe('Transaction Category', () => {
           description: 'Babysitting',
           type: 'Income',
           color: '#f442e8',
+          icon: 'human-child',
           user: '595af9e7a0ded33f30ae0eec'
         };
         post('/api/transactioncategory', done, transactionCategory)
@@ -135,6 +138,7 @@ describe('Transaction Category', () => {
           description: 'Babysitter',
           type: 'Expense',
           color: '#91528d',
+          icon: 'human-child',
           user: '595af9e7a0ded33f30ae0eec'
         };
         post('/api/transactioncategory', done, transactionCategory)

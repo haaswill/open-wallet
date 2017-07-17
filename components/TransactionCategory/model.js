@@ -21,6 +21,12 @@ const TransactionCategorySchema = new mongoose.Schema({
     maxlength: 7,
     required: 'color must be informed.'
   },
+  icon: {
+    type: String,
+    trim: true,
+    maxlength: 20,
+    required: 'icon is required.'
+  },
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
