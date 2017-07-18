@@ -65,7 +65,7 @@ describe('Wallet', () => {
         Wallet.getAccountBalanceByUserAsync('595af9e7a0ded33f30ae0eec')
           .then(res => {
             const [{ value: accountBalance }] = res;
-            expect(accountBalance).to.equal(5951.75);
+            expect(accountBalance).to.equal(551.75);
             done();
           })
           .catch(done);
@@ -113,7 +113,7 @@ describe('Wallet', () => {
           .then(res => {
             expect(res).to.have.status(200);
             expect(res.body.wallets).to.be.a('array');
-            expect(res.body.accountBalance).to.equal(5951.25);
+            expect(res.body.accountBalance).to.equal(551.25);
             done();
           });
       });
