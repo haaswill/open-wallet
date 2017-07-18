@@ -3,14 +3,13 @@
 const { initialize, get, post, put, del } = require('../../tests');
 const { expect } = require('chai');
 const Wallet = require('./model');
-const seeds = require('../../seeds');
+const seed = require('./seed.json');
 
-// Initialize test's index file
 initialize();
 
 before(done => {
   Wallet.remove()
-    .then(() => Wallet.seed(seeds.wallets).then(() => done()))
+    .then(() => Wallet.seed(seed).then(() => done()))
     .catch(done);
 });
 

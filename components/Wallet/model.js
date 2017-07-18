@@ -28,6 +28,11 @@ const WalletSchema = new mongoose.Schema({
     maxlength: 20,
     required: 'icon is required.'
   },
+  isVisible: {
+    type: Boolean,
+    default: true,
+    required: 'isVisible is required.'
+  },
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
@@ -57,7 +62,7 @@ WalletSchema.statics.findByIdAndUserAndRemoveAsync = async function (_id, user) 
 
 WalletSchema.statics.getAccountBalanceByUserAsync = async function (user) {
   return this.aggregate([
-    { $match: { user: ObjectId(user) } },
+    { $match: { user: ObjectId(user), isVisible: true } },
     {
       $group: {
         _id: null,

@@ -13,6 +13,7 @@
     "value": 5400.00,
     "color": "#FF0000",
     "icon": "currency-usd",
+    "isVisible": false,
     "user": "595af9e7a0ded33f30ae0eec"
   },
   {

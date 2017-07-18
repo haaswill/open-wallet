@@ -3,14 +3,13 @@
 const { initialize, get, put, del } = require('../../tests');
 const { expect } = require('chai');
 const Transaction = require('./model');
-const seeds = require('../../seeds');
+const seed = require('./seed.json');
 
-// Initialize test's index file
 initialize();
 
 before(done => {
   Transaction.remove()
-    .then(() => Transaction.seed(seeds.transactions).then(() => done()))
+    .then(() => Transaction.seed(seed).then(() => done()))
     .catch(done);
 });
 

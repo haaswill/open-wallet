@@ -3,14 +3,13 @@
 const { initialize, post, postAuthorization } = require('../../tests');
 const { expect } = require('chai');
 const User = require('./model');
-const seeds = require('../../seeds');
+const seed = require('./seed.json');
 
-// Initialize test's index file
 initialize();
 
 before(done => {
   User.remove()
-    .then(() => User.seed(seeds.users).then(() => done()))
+    .then(() => User.seed(seed).then(() => done()))
     .catch(done);
 });
 

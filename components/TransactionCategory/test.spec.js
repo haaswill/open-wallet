@@ -3,14 +3,13 @@
 const { initialize, get, post, put, del } = require('../../tests');
 const { expect } = require('chai');
 const TransactionCategory = require('./model');
-const seeds = require('../../seeds');
+const seed = require('./seed.json');
 
-// Initialize test's index file
 initialize();
 
 before(done => {
   TransactionCategory.remove()
-    .then(() => TransactionCategory.seed(seeds.transactionCategories).then(() => done()))
+    .then(() => TransactionCategory.seed(seed).then(() => done()))
     .catch(done);
 });
 
