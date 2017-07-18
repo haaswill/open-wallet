@@ -45,6 +45,13 @@ const TransactionSchema = new mongoose.Schema({
   }
 });
 
+function autopopulate(next) {
+  this.populate('transactionCategory');
+  next();
+}
+
+TransactionSchema.pre('find', autopopulate);
+
 TransactionSchema.statics.createAsync = async function (transaction) {
   return (new this(transaction)).save();
 };
