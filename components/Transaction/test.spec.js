@@ -114,7 +114,7 @@ describe('Transaction', () => {
     });
     describe('#findByTargetWalletAndUserAsync()', () => {
       it('should find all transactions by target wallet and user', done => {
-        Transaction.findByTargetWalletAndUserAsync('595aff0e16ca883ef634f9af', '595af9e7a0ded33f30ae0eec')
+        Transaction.findByTargetWalletAndUserAsync('595aff0e16ca883ef634f9af', '595af9e7a0ded33f30ae0eec', 5)
           .then(transactions => {
             expect(transactions.length).to.equal(5);
             done();
@@ -297,7 +297,7 @@ describe('Transaction', () => {
     });
     describe('GET /api/transaction/wallet/:id', () => {
       it('should get a transaction by wallet', done => {
-        get('/api/transaction/wallet/595aff0e16ca883ef634f9af', done)
+        get('/api/transaction/wallet/595aff0e16ca883ef634f9af?limit=5', done)
           .then(res => {
             expect(res).to.have.status(200);
             expect(res.body).to.be.a('array');

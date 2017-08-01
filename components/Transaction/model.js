@@ -78,20 +78,20 @@ TransactionSchema.statics.findByUserAsync = async function (user, limit) {
   return this.findAsync({ user, date: queryDefault.date }, limit);
 };
 
-TransactionSchema.statics.findByTargetWalletAndUserAsync = async function (targetWallet, user) {
-  return this.find({ targetWallet, user });
+TransactionSchema.statics.findByTargetWalletAndUserAsync = async function (targetWallet, user, limit) {
+  return this.findAsync({ targetWallet, user }, limit);
 };
 
-TransactionSchema.statics.findByTransactionCategoryAndUserAsync = async function (transactionCategory, user) {
-  return this.find({ transactionCategory, user });
+TransactionSchema.statics.findByTransactionCategoryAndUserAsync = async function (transactionCategory, user, limit) {
+  return this.findAsync({ transactionCategory, user }, limit);
 };
 
-TransactionSchema.statics.findByTypeAndUserAsync = async function (type, user) {
-  return this.find({ type, user });
+TransactionSchema.statics.findByTypeAndUserAsync = async function (type, user, limit) {
+  return this.findAsync({ type, user }, limit);
 };
 
-TransactionSchema.statics.findByTypeAndTargetWalletAndUserAsync = async function (type, targetWallet, user) {
-  return this.find({ type, targetWallet, user });
+TransactionSchema.statics.findByTypeAndTargetWalletAndUserAsync = async function (type, targetWallet, user, limit) {
+  return this.findAsync({ type, targetWallet, user }, limit);
 };
 
 TransactionSchema.statics.findByIdAndUserAndRemoveAsync = async function (_id, user) {
