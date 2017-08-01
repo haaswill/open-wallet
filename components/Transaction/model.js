@@ -2,6 +2,12 @@
 
 const { mongoose } = require('../../config/database');
 
+const queryDefault = {
+  date: {
+    $gte: new Date().getDate() - 7
+  }
+}
+
 const TransactionSchema = new mongoose.Schema({
   description: {
     type: String,
@@ -60,12 +66,16 @@ TransactionSchema.statics.updateAsync = async function (transaction) {
   return this.findOneAndUpdate({ _id: transaction._id, user: transaction.user }, transaction, { runValidators: true, new: true });
 };
 
+TransactionSchema.statics.findAsync = async function (query = queryDefault, limit = 3) {
+  return this.find(query).limit(limit);
+};
+
 TransactionSchema.statics.findByIdAndUserAsync = async function (_id, user) {
   return this.findOne({ _id, user });
 };
 
-TransactionSchema.statics.findByUserAsync = async function (user) {
-  return this.find({ user });
+TransactionSchema.statics.findByUserAsync = async function (user, limit) {
+  return this.findAsync({ user, date: queryDefault.date }, limit);
 };
 
 TransactionSchema.statics.findByTargetWalletAndUserAsync = async function (targetWallet, user) {

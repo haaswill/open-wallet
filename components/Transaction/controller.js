@@ -15,7 +15,7 @@ exports.getById = async (req, res) => {
 };
 
 exports.getByUser = async (req, res) => {
-  const transactions = await Transaction.findByUserAsync(req.user._id);
+  const transactions = await Transaction.findByUserAsync(req.user._id, req.limit);
   res.json(transactions);
 };
 

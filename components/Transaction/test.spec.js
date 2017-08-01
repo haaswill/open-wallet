@@ -85,8 +85,18 @@ describe('Transaction', () => {
     describe('#findByIdAndUserAsync()', () => {
       it('should find a transactions by id and user', done => {
         Transaction.findByIdAndUserAsync('595ede4f1e2d5c15f18e33d6', '595af9e7a0ded33f30ae0eec')
+          .then(transaction => {
+            expect(transaction.value).to.equal(2000);
+            done();
+          })
+          .catch(done);
+      });
+    });
+    describe('#findAsync()', () => {
+      it('should find transactions since last week', done => {
+        Transaction.findAsync()
           .then(transactions => {
-            expect(transactions.value).to.equal(2000);
+            expect(transactions).to.be.a('array');
             done();
           })
           .catch(done);
@@ -94,7 +104,7 @@ describe('Transaction', () => {
     });
     describe('#findByUserAsync()', () => {
       it('should find all transactions by user', done => {
-        Transaction.findByUserAsync('595af9e7a0ded33f30ae0eec')
+        Transaction.findByUserAsync('595af9e7a0ded33f30ae0eec', 7)
           .then(transactions => {
             expect(transactions.length).to.equal(7);
             done();
@@ -189,8 +199,17 @@ describe('Transaction', () => {
   });
   describe('Router', () => {
     describe('GET /api/transaction', () => {
+      it('should get 5 transactions by user', done => {
+        get('/api/transaction?limit=5', done)
+          .then(res => {
+            expect(res).to.have.status(200);
+            expect(res.body).to.be.a('array');
+            expect(res.body.length).to.equal(5);
+            done();
+          });
+      });
       it('should get all transactions by user', done => {
-        get('/api/transaction', done)
+        get('/api/transaction?limit=lala', done)
           .then(res => {
             expect(res).to.have.status(200);
             expect(res.body).to.be.a('array');

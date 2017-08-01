@@ -1,8 +1,11 @@
+'use strict';
+
 const transaction = require('./controller');
 const { catchErrors } = require('../../handlers/errorHandlers');
+const { handleLimit } = require('../../middlewares');
 
 module.exports = function (router) {
-  router.get('/', catchErrors(transaction.getByUser));
+  router.get('/', handleLimit, catchErrors(transaction.getByUser));
   router.get('/expenses', catchErrors(transaction.getExpenses));
   router.get('/incomes', catchErrors(transaction.getIncomes));
   router.get('/transfers', catchErrors(transaction.getTransfers));
