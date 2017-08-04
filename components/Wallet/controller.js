@@ -35,7 +35,7 @@ exports.getAccountBalance = async (req, res) => {
   const walletsPromise = Wallet.findByUserAsync(req.user._id);
   const accountBalancePromise = Wallet.getAccountBalanceByUserAsync(req.user._id);
   const [wallets, accountBalance] = await Promise.all([walletsPromise, accountBalancePromise]);
-  res.json({ wallets, accountBalance: accountBalance.value || 0 });
+  res.json({ wallets, accountBalance: accountBalance[0].value || 0 });
 };
 
 exports.income = async (req, res) => {
